@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Интернет-магазин</title>
+    <link rel="stylesheet" href="css/bootstrap.css"  type="text/css"/>
+    <link rel="stylesheet" href="css/bootstrap-theme.css"  type="text/css"/>
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!--
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    -->
+    <link rel="stylesheet" href="css/main.css" type="text/css"/>
+    <script type="text/javascript" src="js/main.js"></script>
+</head>
+<body>
+
+<div id="header">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- +ссылка на главную -->
+                <img src="img/150x70.svg" class="img-responsive" style="position:relative;top:10px">
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="col-sm-1 col-md-2 col-lg-3"></div>
+                <ul class="nav navbar-nav">
+                    <li><p class="navbar-text">[телефон]</p></li>
+                    <li><a href="#">Помощь</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">о магазине <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">оплата</a></li>
+                            <li><a href="#">доставка</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <!-- корзина -->
+                    <li><img src="img/32x32.svg" class="img-responsive" style="position:relative;top:10px;"></li>
+                    <li>
+                        <p class="navbar-text">
+                            <a href="#" class="navbar-link">Корзина</a>
+                            <br />
+                            <a href="#" class="navbar-link jslink">товары</a>: X шт
+                        </p>
+                    </li>
+                    <!-- авторизация -->
+                    <li><a href="#">вход</a></li>
+                    <li><a href="#">регистрация</a></li>
+                    <!-- <a href="#">личный кабинет</a> -->
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div id="menu" class="col-sm-2">
+            <ul class="ultreefree ul-dropfree">
+                <li class="nav-header">Категории товаров</li>
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">ручной работы</a></li>
+                <hr />
+                <li>
+                <a href="#">Для праздников</a>
+                <ul class="">
+                    <li><a href="#">новый год</a></li>
+                    <li><a href="#">23 февраля</a></li>
+                    <li><a href="#">8 марта</a></li>
+                    <li><a href="#">день рождения</a></li>
+                </ul>
+                </li>
+                <li><a href="#">с украшениями</a></li>
+            </ul>
+        </div>
+        <div id="content" class="col-sm-9">
+            <h3>открытка "поздравляю"</h3>
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <img src="img/300x200.svg" alt="...">
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <p><a href="#" class="btn btn-primary" role="button">Купить!</a> <a href="#" class="btn btn-default" role="button">В корзину</a></p>
+                <div class="fll mlabel">цена</div>
+                <div class="fll">100500р</div>
+                <div class="clearfix"></div>
+                <div class="fll mlabel">производитель</div>
+                <div class="fll">иван иванович иванов</div>
+                <div class="clearfix"></div>
+                <div class="fll mlabel">размер</div>
+                <div class="fll">20x30x3</div>
+                <div class="clearfix"></div>
+                <div class="fll mlabel">вес</div>
+                <div class="fll">10гр</div>
+                <div class="clearfix"></div>
+            </div>
+        </div> <!-- end of content -->
+    </div>
+</div>
+
+<div id="footer">
+    <hr />
+</div>
+
+</body>
+</html>
