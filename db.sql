@@ -59,6 +59,24 @@ INSERT INTO `yii_card_tags` (`cardID`, `tagID`) VALUES
 /*!40000 ALTER TABLE `yii_card_tags` ENABLE KEYS */;
 
 
+-- Дамп структуры для таблица yii_db.yii_news
+CREATE TABLE IF NOT EXISTS `yii_news` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `header` varchar(200) NOT NULL DEFAULT '',
+  `text` varchar(2000) NOT NULL DEFAULT '',
+  `pix` varchar(500) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+-- Дамп данных таблицы yii_db.yii_news: ~0 rows (приблизительно)
+/*!40000 ALTER TABLE `yii_news` DISABLE KEYS */;
+INSERT INTO `yii_news` (`ID`, `date`, `header`, `text`, `pix`) VALUES
+	(1, '2014-03-28 19:13:47', 'супер-новость', 'Ура! в продаже новые бесполезные хрени, спешите купить!', '/img/64x64.svg'),
+	(2, '2014-03-20 19:14:44', 'супер-скидки', 'на бесполезную хрень, которую никто не покупает', '/img/64x64.svg');
+/*!40000 ALTER TABLE `yii_news` ENABLE KEYS */;
+
+
 -- Дамп структуры для таблица yii_db.yii_producers
 CREATE TABLE IF NOT EXISTS `yii_producers` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,

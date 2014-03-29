@@ -91,5 +91,6 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
         'phone'=>'+78001234678',
+        'default_pix'=>'/_/img/300x200.svg',
 	),
 );

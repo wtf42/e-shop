@@ -1,12 +1,7 @@
 #content{
-    float:left;
+    /*float:left;
     margin-left: auto;
-    margin-right: auto;
-}
-.left_menu{
-    float:left;
-    margin-left: 1em;
-    margin-right: 1em;
+    margin-right: auto;*/
 }
 
 a.jslink {
@@ -46,14 +41,24 @@ ul.ul-treefree li:last-child:before { border-left:solid 1px #999; }
 
 .mlabel{
     text-align: right;
-    width: 30%;
+    width: 150px;
     padding-right: 20px;
 }
 
-.vac{
-    vertical-align : middle;
+#footer p{
+    width: 85%;
+    margin-top:1em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align:right;
+    color: rgba(204, 204, 204, 0.99);
+    opacity: 0.2;
 }
 
-.cnt_text{
-    text-align: right;
+.card_item{
+    display: inline-block;
+    vertical-align: top;
+    width: 330px;
+    margin-left: 10px;
+    margin-right: 10px;
 }

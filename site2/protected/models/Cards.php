@@ -15,6 +15,7 @@
  * @property integer $weight
  *
  * The followings are the available model relations:
+ * @property Pix[] $yiiPixes
  * @property Tags[] $yiiTags
  * @property Producers $producer
  * @property Purchases[] $yiiPurchases
@@ -55,6 +56,7 @@ class Cards extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'yiiPixes' => array(self::MANY_MANY, 'Pix', 'yii_card_pix(cardID, pixID)'),
 			'yiiTags' => array(self::MANY_MANY, 'Tags', 'yii_card_tags(cardID, tagID)'),
 			'producer' => array(self::BELONGS_TO, 'Producers', 'producerID'),
 			'yiiPurchases' => array(self::MANY_MANY, 'Purchases', 'yii_purchase_items(cardID, purchaseID)'),

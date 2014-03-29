@@ -1,27 +1,23 @@
 <?php
 
 /**
- * This is the model class for table "yii_tags".
+ * This is the model class for table "yii_pix".
  *
- * The followings are the available columns in table 'yii_tags':
+ * The followings are the available columns in table 'yii_pix':
  * @property integer $ID
- * @property string $name
+ * @property string $path
  *
  * The followings are the available model relations:
  * @property Cards[] $yiiCards
- * @property Subtags $parentTag1
- * @property Tags $parentTag
- * @property Subtags[] $subtags1
- * @property Tags[] $subtags
  */
-class Tags extends CActiveRecord
+class Pix extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'yii_tags';
+		return 'yii_pix';
 	}
 
 	/**
@@ -32,11 +28,10 @@ class Tags extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name', 'required'),
-			array('name', 'length', 'max'=>200),
+			array('path', 'length', 'max'=>300),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, name', 'safe', 'on'=>'search'),
+			array('ID, path', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -48,11 +43,7 @@ class Tags extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'yiiCards' => array(self::MANY_MANY, 'Cards', 'yii_card_tags(tagID, cardID)'),
-			'parentTag1' => array(self::HAS_ONE, 'Subtags', 'tagID'),
-			'parentTag' => array(self::HAS_ONE, 'Tags', 'parentID','through'=>'parentTag1'),
-			'subtags1' => array(self::HAS_MANY, 'Subtags', 'parentID'),
-			'subtags' => array(self::HAS_MANY, 'Tags','tagID','through'=>'subtags1'),
+			'yiiCards' => array(self::MANY_MANY, 'Cards', 'yii_card_pix(pixID, cardID)'),
 		);
 	}
 
@@ -63,7 +54,7 @@ class Tags extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'name' => 'Name',
+			'path' => 'Path',
 		);
 	}
 
@@ -86,7 +77,7 @@ class Tags extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('ID',$this->ID);
-		$criteria->compare('name',$this->name,true);
+		$criteria->compare('path',$this->path,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -97,7 +88,7 @@ class Tags extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Tags the static model class
+	 * @return Pix the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{

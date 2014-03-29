@@ -12,11 +12,16 @@
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/_/css/main.css" type="text/css"/>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/main.js"></script>
 
+<!--
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/_/css/bootstrap-image-gallery.css" type="text/css"/>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/bootstrap-image-gallery.js"></script>
+-->
+    <!--
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/main.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/form.css" />
-
+-->
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -75,13 +80,13 @@
     </nav>
 </div>
 
-<div id = "page">
+<div id="page1">
     <?php echo $content; ?>
 </div>
 
-<div id="footer">
+<div id="footer" class="clearfix">
     <hr />
-    <!-- &copy; geka666, <?php echo date('Y'); ?> -->
+    <p>&copy; geka666, <?php echo date('Y'); ?></p>
 </div>
 <!--
 	<div id="mainmenu">
