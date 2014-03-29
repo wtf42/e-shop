@@ -8,7 +8,7 @@ $this->breadcrumbs=array();
 
 array_push($this->breadcrumbs, $model->name);
 $bc_tag = $model;
-while(isset($bc_tag->parentTag) && !is_null($bc_tag)){
+while(isset($bc_tag->parentTag)){
     $bc_tag = $bc_tag->parentTag;
     $this->breadcrumbs[$bc_tag->name] = array('view','id'=>$bc_tag->ID);
 }

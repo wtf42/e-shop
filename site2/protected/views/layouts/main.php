@@ -11,7 +11,6 @@
 
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/_/css/main.css" type="text/css"/>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/main.js"></script>
-
 <!--
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/_/css/bootstrap-image-gallery.css" type="text/css"/>
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/bootstrap-image-gallery.js"></script>
@@ -38,7 +37,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="<?php echo Yii::app()->request->baseUrl; ?>">
+                <a href="<?php echo Yii::app()->createUrl('eshop/index'); ?>">
                     <img src="/_/img/150x70.svg" class="img-responsive" style="position:relative;top:10px">
                 </a>
             </div>
@@ -46,8 +45,8 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <div class="col-sm-1 col-md-2 col-lg-3"></div>
                 <ul class="nav navbar-nav">
-                    <li><p class="navbar-text"><?php echo Yii::app()->params['phone']; ?></p></li>
-                    <li><a href="<?php echo Yii::app()->createUrl('eshop/page', $params = array('view'=>'about')); ?>">Помощь</a></li>
+                    <li><p class="navbar-text"><i class="glyphicon glyphicon-earphone"></i> <?php echo Yii::app()->params['phone']; ?></p></li>
+                    <li><?php echo CHtml::link('Помощь',array('/eshop/page','view'=>'about')); ?></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">о магазине <b class="caret"></b></a>
                         <ul class="dropdown-menu">
@@ -55,13 +54,13 @@
                             <li><a href="#">доставка</a></li>
                             <li><a href="#">Something else here</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li><?php echo CHtml::link('Админка',array('/eshop/page','view'=>'admin')); ?></li>
                         </ul>
                     </li>
                 </ul>
                 <!-- зависит уже от пользователя/админа -->
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- корзина -->
+                    <!-- корзина <i class="glyphicon glyphicon-shopping-cart img-responsive"></i> -->
                     <li><img src="/_/img/32x32.svg" class="img-responsive" style="position:relative;top:10px;"></li>
                     <li>
                         <p class="navbar-text">
@@ -83,8 +82,8 @@
 <div id="page1">
     <?php echo $content; ?>
 </div>
-
-<div id="footer" class="clearfix">
+<div class="clearfix"></div>
+<div id="footer">
     <hr />
     <p>&copy; geka666, <?php echo date('Y'); ?></p>
 </div>

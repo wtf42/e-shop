@@ -3,8 +3,10 @@
 class EShopController extends CController
 {
     public $layout='//layouts/user';
-    public $menu=array();
+    public $menu_selector=null;
     public $breadcrumbs=array();
+    public $submenu=array();
+
     /**
      * Declares class-based actions.
      */

@@ -28,7 +28,7 @@ class CardsList extends CWidget {
 		}
 
         if (count($this->Cards) == 0){
-            echo 'Здесь пусто, нет ничего вообще.';
+            echo '<p>Здесь пусто, нет ничего вообще.</p>';
         }
 	}
 }
