@@ -44,7 +44,7 @@ class Cards extends CActiveRecord
 			array('description', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, name, description, producerID, price, sizeX, sizeY, sizeZ, weight', 'safe', 'on'=>'search'),
+			array('name, description, producerID, price, sizeX, sizeY, sizeZ, weight', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -70,14 +70,14 @@ class Cards extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'name' => 'Name',
-			'description' => 'Description',
-			'producerID' => 'Producer',
-			'price' => 'Price',
-			'sizeX' => 'Size X',
-			'sizeY' => 'Size Y',
-			'sizeZ' => 'Size Z',
-			'weight' => 'Weight',
+			'name' => 'Название',
+			'description' => 'Описание',
+			'producerID' => 'Производитель',
+			'price' => 'Цена',
+			'sizeX' => 'Размер X',
+			'sizeY' => 'Размер Y',
+			'sizeZ' => 'Размер Z',
+			'weight' => 'Вес',
 		);
 	}
 

@@ -7,28 +7,28 @@
 $menu_items = array(
     array(
         'text'=>'Админка',
-        'lnk'=>array('/eshop/pages','view'=>'admin'),
+        'lnk'=>array('/eshop/page','view'=>'admin'),
         'icon'=>'glyphicon-home',
         'name'=>'admin',
         'active'=>$this->menu_selector,
     ),
     array(
         'text'=>'Новости',
-        'lnk'=>'/news/index',
+        'lnk'=>'/news/admin',
         'icon'=>'glyphicon-comment',
         'name'=>'news',
         'active'=>$this->menu_selector,
     ),
     array(
         'text'=>'Товары',
-        'lnk'=>'/cards/index',
+        'lnk'=>'/cards/admin',
         'icon'=>'glyphicon-list-alt',
         'name'=>'cards',
         'active'=>$this->menu_selector,
     ),
     array(
         'text'=>'Категории',
-        'lnk'=>'/tags/index',
+        'lnk'=>'/tags/admin',
         'icon'=>'glyphicon-tag',
         'name'=>'tags',
         'active'=>$this->menu_selector,

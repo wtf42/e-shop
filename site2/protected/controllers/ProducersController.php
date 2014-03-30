@@ -1,13 +1,13 @@
 <?php
 
-class CardsController extends Controller
+class ProducersController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
-    public $menu_selector=null;
+	public $layout='//layouts/colorbox';
+    public $menu_selector = '';
 
 	/**
 	 * @return array action filters
@@ -28,16 +28,8 @@ class CardsController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
-				'users'=>array('*'),
-			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin', 'admin___','delete'),
+				'actions'=>array('admin','index view create update delete'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -63,14 +55,14 @@ class CardsController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Cards;
+		$model=new Producers;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Cards']))
+		if(isset($_POST['Producers']))
 		{
-			$model->attributes=$_POST['Cards'];
+			$model->attributes=$_POST['Producers'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->ID));
 		}
@@ -92,9 +84,9 @@ class CardsController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Cards']))
+		if(isset($_POST['Producers']))
 		{
-			$model->attributes=$_POST['Cards'];
+			$model->attributes=$_POST['Producers'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->ID));
 		}
@@ -123,7 +115,7 @@ class CardsController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('Cards');
+		$dataProvider=new CActiveDataProvider('Producers');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -132,36 +124,28 @@ class CardsController extends Controller
 	/**
 	 * Manages all models.
 	 */
-    public function actionAdmin___()
-    {
-        $model=new Cards('search');
-        $model->unsetAttributes();  // clear any default values
-        if(isset($_GET['Cards']))
-            $model->attributes=$_GET['Cards'];
+	public function actionAdmin()
+	{
+		$model=new Producers('search');
+		$model->unsetAttributes();  // clear any default values
+		if(isset($_GET['Producers']))
+			$model->attributes=$_GET['Producers'];
 
-        $this->render('admin___',array(
-            'model'=>$model,
-        ));
-    }
-
-    public function actionAdmin()
-    {
-        $dataProvider=new CActiveDataProvider('Cards');
-        $this->render('admin',array(
-            'dataProvider'=>$dataProvider,
-        ));
-    }
+		$this->render('admin',array(
+			'model'=>$model,
+		));
+	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Cards the loaded model
+	 * @return Producers the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Cards::model()->findByPk($id);
+		$model=Producers::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -169,11 +153,11 @@ class CardsController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Cards $model the model to be validated
+	 * @param Producers $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='cards-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='producers-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
