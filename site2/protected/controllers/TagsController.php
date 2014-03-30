@@ -7,6 +7,7 @@ class TagsController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='//layouts/column2';
+    public $menu_selector = '';
 
 	/**
 	 * @return array action filters

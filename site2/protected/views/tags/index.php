@@ -2,6 +2,8 @@
 /* @var $this TagsController */
 /* @var $dataProvider CActiveDataProvider */
 
+$this->layout='//layouts/admin';
+$this->menu_selector = 'tags';
 $this->breadcrumbs=array(
 	'Tags',
 );

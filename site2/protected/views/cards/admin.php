@@ -66,10 +66,13 @@ foreach($dataProvider->data as $card){
             echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span> Редактировать',
                 array('/cards/update','id'=>$card->ID),
                 array('class' => 'btn btn-primary btn-xs'));
+            echo ' ';
+            echo CHtml::link('<span class="glyphicon glyphicon-trash"></span>',
+                '#',
+                array('class' => 'btn btn-danger btn-xs',
+                    'submit'=>array('delete','id'=>$card->ID),
+                    'confirm'=>'Вы уверены что хотите удалить открытку "'.$card->name.'"?'));
             ?>
-            <button type="button" class="btn btn-danger btn-xs" title="Удалить">
-                <span class="glyphicon glyphicon-trash"></span>
-            </button>
         </div>
     </div>
 <?php

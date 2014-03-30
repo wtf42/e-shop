@@ -2,6 +2,8 @@
 /* @var $this TagsController */
 /* @var $model Tags */
 
+$this->layout='//layouts/admin';
+$this->menu_selector = 'tags';
 $this->breadcrumbs=array(
 	'Tags'=>array('index'),
 	'Create',

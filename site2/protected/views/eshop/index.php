@@ -4,5 +4,11 @@
 $this->pageTitle=Yii::app()->name;
 ?>
 
-<p>It works!</p>
+<h1>It works!</h1>
 
+<?php
+
+$news = News::model()->findAll();
+$this->renderPartial('//news/index',array('data'=>$news));
+
+?>

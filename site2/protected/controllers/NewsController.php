@@ -1,13 +1,13 @@
 <?php
 
-class ProducersController extends Controller
+class NewsController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/colorbox';
-    public $menu_selector = '';
+	public $layout='//layouts/column2';
+    public $menu_selector='news';
 
 	/**
 	 * @return array action filters
@@ -28,8 +28,12 @@ class ProducersController extends Controller
 	public function accessRules()
 	{
 		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
+			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','index','view','create','update','delete'),
+				'actions'=>array('create','update','admin','delete', 'search'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -55,14 +59,14 @@ class ProducersController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new Producers;
+		$model=new News;
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Producers']))
+		if(isset($_POST['News']))
 		{
-			$model->attributes=$_POST['Producers'];
+			$model->attributes=$_POST['News'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->ID));
 		}
@@ -84,9 +88,9 @@ class ProducersController extends Controller
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
-		if(isset($_POST['Producers']))
+		if(isset($_POST['News']))
 		{
-			$model->attributes=$_POST['Producers'];
+			$model->attributes=$_POST['News'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model->ID));
 		}
@@ -110,28 +114,36 @@ class ProducersController extends Controller
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Producers');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+    /**
+     * Lists all models.
+     */
+    public function actionIndex()
+    {
+        $dataProvider=new CActiveDataProvider('News');
+        $this->render('index',array(
+            'dataProvider'=>$dataProvider,
+        ));
+    }
+
+    public function actionAdmin()
+    {
+        $dataProvider=new CActiveDataProvider('News');
+        $this->render('admin',array(
+            'dataProvider'=>$dataProvider,
+        ));
+    }
 
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionSearch()
 	{
-		$model=new Producers('search');
+		$model=new News('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['Producers']))
-			$model->attributes=$_GET['Producers'];
+		if(isset($_GET['News']))
+			$model->attributes=$_GET['News'];
 
-		$this->render('admin',array(
+		$this->render('search',array(
 			'model'=>$model,
 		));
 	}
@@ -140,12 +152,12 @@ class ProducersController extends Controller
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer $id the ID of the model to be loaded
-	 * @return Producers the loaded model
+	 * @return News the loaded model
 	 * @throws CHttpException
 	 */
 	public function loadModel($id)
 	{
-		$model=Producers::model()->findByPk($id);
+		$model=News::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -153,11 +165,11 @@ class ProducersController extends Controller
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param Producers $model the model to be validated
+	 * @param News $model the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='producers-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='news-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();

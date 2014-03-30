@@ -28,10 +28,10 @@ class News extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('date', 'required'),
 			array('header', 'length', 'max'=>200),
 			array('text', 'length', 'max'=>2000),
 			array('pix', 'length', 'max'=>500),
+            array('visible', 'boolean'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, date, header, text, pix', 'safe', 'on'=>'search'),
@@ -56,9 +56,9 @@ class News extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'date' => 'Date',
-			'header' => 'Header',
-			'text' => 'Text',
+			'date' => 'Дата',
+			'header' => 'Заголовок',
+			'text' => 'Текст новости',
 			'pix' => 'Pix',
 		);
 	}

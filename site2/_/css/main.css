@@ -66,3 +66,8 @@ ul.ul-treefree li:last-child:before { border-left:solid 1px #999; }
 .prev_pix{
     max-height: 200px;
 }
+
+.admin_panel{
+    width: 120px;
+    margin-bottom:10px;
+}
