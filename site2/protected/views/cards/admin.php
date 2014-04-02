@@ -25,7 +25,7 @@ $this->widget('zii.widgets.CListView', array(
 */
 
 ?>
-<div class="col-md-10">
+<div class="col-md-11">
 <div class="panel panel-info">
     <div class="panel-heading">
         <div class="panel-title">
@@ -35,7 +35,7 @@ $this->widget('zii.widgets.CListView', array(
                 </div>
                 <div class="pull-right">
                     <a href="#" class="btn btn-sm btn-default">Выбрать категории</a>
-                    <?php echo CHtml::link('Поиск', array('/cards/admin___'), array('class'=>'btn btn-sm btn-default')); ?>
+                    <?php echo CHtml::link('Поиск', array('/cards/search'), array('class'=>'btn btn-sm btn-default')); ?>
                     <?php echo CHtml::link('<span class="glyphicon glyphicon-plus"></span> Создать',
                         array('/cards/create'), array('class'=>'btn btn-primary')); ?>
                 </div>

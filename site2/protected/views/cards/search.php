@@ -2,6 +2,8 @@
 /* @var $this CardsController */
 /* @var $model Cards */
 
+$this->layout='//layouts/admin';
+$this->menu_selector='cards';
 $this->breadcrumbs=array(
 	'Cards'=>array('index'),
 	'Manage',

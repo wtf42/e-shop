@@ -13,6 +13,8 @@ $(document).ready(function(){
     $(".drop").nextAll("ul").hide();
     $(".ul-dropfree").find("ul").slideUp(400).parents("li").children("div.drop").css({'background-position':"0 0"});
 
+    //$(".drop").trigger('click');
+
 
 
     $('.btn-number').click(function(e){
@@ -152,6 +154,11 @@ $(document).ready(function(){
             }
         }
         init();
+    });
+
+
+    $('.tree-toggle').click(function () {
+        $(this).parent().children('ul.tree').toggle(200);
     });
 });
 

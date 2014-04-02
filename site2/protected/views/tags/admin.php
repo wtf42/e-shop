@@ -1,56 +1,76 @@
 <?php
 /* @var $this TagsController */
-/* @var $model Tags */
+/* @var $dataProvider CActiveDataProvider */
 
 $this->layout='//layouts/admin';
-$this->menu_selector = 'tags';
+$this->menu_selector='tags';
+/*
 $this->breadcrumbs=array(
-	'Tags'=>array('index'),
-	'Manage',
+	'Cards',
 );
+*/
 
-$this->menu=array(
-	array('label'=>'List Tags', 'url'=>array('index')),
-	array('label'=>'Create Tags', 'url'=>array('create')),
-);
-
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-	$('.search-form').toggle();
-	return false;
-});
-$('.search-form form').submit(function(){
-	$('#tags-grid').yiiGridView('update', {
-		data: $(this).serialize()
-	});
-	return false;
-});
-");
 ?>
 
-<h1>Manage Tags</h1>
 
-<p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
-</p>
+<h3>Категории:</h3>
+<?php
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
-<div class="search-form" style="display:none">
-<?php $this->renderPartial('_search',array(
-	'model'=>$model,
-)); ?>
-</div><!-- search-form -->
+echo CHtml::link('Все категории',array('/tags/index'),array('class'=>'btn btn-xs btn-default'));
+echo ' ';
+echo CHtml::link('<span class="glyphicon glyphicon-plus"></span> ',
+    array('/tags/create','id'=>null),
+    array('class' => 'btn btn-default btn-xs colorbox'));
 
-<?php $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'tags-grid',
-	'dataProvider'=>$model->search(),
-	'filter'=>$model,
-	'columns'=>array(
-		'ID',
-		'name',
-		array(
-			'class'=>'CButtonColumn',
-		),
-	),
-)); ?>
+?>
+<ul class="ul-treefree ul-dropfree">
+<?php
+
+$all_tags=Tags::model()->findAll();
+
+function print_tree($tags){
+    foreach($tags as $tag){
+        echo "<li>".CHtml::link($tag->name,array('/tags/view','id'=>$tag->ID),array('class'=>'btn btn-xs btn-default')).' ';
+        echo CHtml::link('<span class="glyphicon glyphicon-plus"></span> ',
+            array('/tags/create','id'=>$tag->ID),
+            array('class' => 'btn btn-default btn-xs colorbox'));
+        echo ' ';
+        echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span> ',
+            array('/tags/update','id'=>$tag->ID),
+            array('class' => 'btn btn-primary btn-xs colorbox'));
+        echo ' ';
+        echo CHtml::link('<span class="glyphicon glyphicon-trash"></span>',
+            '#',
+            array('class' => 'btn btn-danger btn-xs',
+                'submit'=>array('delete','id'=>$tag->ID),
+                'confirm'=>'Вы уверены что хотите удалить открытку "'.$tag->name.'"?'));
+
+        if (count($tag->tags)){
+            echo "\n<ul>\n";
+            print_tree($tag->tags);
+            echo "</ul>\n";
+        }
+
+        echo "</li>\n";
+    }
+}
+
+print_tree(array_filter($all_tags, function ($tag){ return !isset($tag->parent); }));
+
+?>
+</ul>
+
+<?php
+
+$colorbox = $this->widget('application.extensions.colorpowered.JColorBox');
+$colorbox->addInstance('.colorbox', array('height'=>'300px', 'width'=>'90%'));
+
+?>
+
+<script>
+    $(document).ready(function(){
+        $(".drop").trigger('click');
+    });
+</script>
+
+

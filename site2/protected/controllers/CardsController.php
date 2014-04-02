@@ -29,15 +29,11 @@ class CardsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','view'),
+				'actions'=>array('index','view','search'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin', 'admin___','delete'),
+				'actions'=>array('create','update','admin','delete'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -66,7 +62,7 @@ class CardsController extends Controller
 		$model=new Cards;
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Cards']))
 		{
@@ -90,7 +86,7 @@ class CardsController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Cards']))
 		{
@@ -132,14 +128,14 @@ class CardsController extends Controller
 	/**
 	 * Manages all models.
 	 */
-    public function actionAdmin___()
+    public function actionSearch()
     {
         $model=new Cards('search');
         $model->unsetAttributes();  // clear any default values
         if(isset($_GET['Cards']))
             $model->attributes=$_GET['Cards'];
 
-        $this->render('admin___',array(
+        $this->render('search',array(
             'model'=>$model,
         ));
     }

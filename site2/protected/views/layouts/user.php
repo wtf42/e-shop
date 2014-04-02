@@ -6,26 +6,20 @@
                 <ul class="ul-treefree ul-dropfree">
 <?php
 
-$tags=Tags::model()->findAll();
-$tmp_tag = null;
-
-function print_tree($all_tags, $tags){
+function print_tree($tags){
     foreach($tags as $tag){
         echo "<li>".CHtml::link($tag->name,array('/tags/view','id'=>$tag->ID));
 
-        global $tmp_tag; $tmp_tag = $tag;
-        $child_tags = array_filter($all_tags, function ($cur_tag){ global $tmp_tag; return isset($cur_tag->parentTag) && $cur_tag->parentTag->ID == $tmp_tag->ID;});
-        if (count($child_tags)){
+        if (count($tag->tags)){
             echo "\n<ul>\n";
-            print_tree($all_tags, $child_tags);
+            print_tree($tag->tags);
             echo "</ul>\n";
         }
 
         echo "</li>\n";
     }
 }
-
-print_tree($tags, array_filter($tags, function ($tag){ return !isset($tag->parentTag); }));
+print_tree(array_filter(Tags::model()->findAll(), function ($tag){ return !isset($tag->parent); }));
 
 ?>
                 </ul>

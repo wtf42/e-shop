@@ -29,15 +29,34 @@ CREATE TABLE IF NOT EXISTS `yii_cards` (
   PRIMARY KEY (`ID`),
   KEY `FK_yii_cards_yii_producers` (`producerID`),
   CONSTRAINT `FK_yii_cards_yii_producers` FOREIGN KEY (`producerID`) REFERENCES `yii_producers` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы yii_db.yii_cards: ~3 rows (приблизительно)
+-- Дамп данных таблицы yii_db.yii_cards: ~4 rows (приблизительно)
 /*!40000 ALTER TABLE `yii_cards` DISABLE KEYS */;
 INSERT INTO `yii_cards` (`ID`, `name`, `description`, `producerID`, `price`, `sizeX`, `sizeY`, `sizeZ`, `weight`) VALUES
 	(1, 'открытка "поздравляю"', 'обычная себе открытка', 1, 100, 20, 30, 3, 10),
 	(2, 'еще одна простая открытка', 'совсем неинтересная', 1, 42, 10, 10, 3, 5),
-	(3, 'крутая-красивая открытка', 'красивая расписная, с украшениями и прочее', 2, 200, 20, 30, 3, 25);
+	(3, 'крутая-красивая открытка', 'красивая расписная, с украшениями и прочее', 2, 200, 20, 30, 3, 25),
+	(4, 'еще одна открытка, чтоб поехала разметка', 'ненужная открытка', 1, 0, 1, 1, 1, 1);
 /*!40000 ALTER TABLE `yii_cards` ENABLE KEYS */;
+
+
+-- Дамп структуры для таблица yii_db.yii_card_pix
+CREATE TABLE IF NOT EXISTS `yii_card_pix` (
+  `cardID` int(11) NOT NULL,
+  `pixID` int(11) NOT NULL,
+  PRIMARY KEY (`cardID`,`pixID`),
+  KEY `FK__yii_pix` (`pixID`),
+  CONSTRAINT `FK__yii_cards` FOREIGN KEY (`cardID`) REFERENCES `yii_cards` (`ID`),
+  CONSTRAINT `FK__yii_pix` FOREIGN KEY (`pixID`) REFERENCES `yii_pix` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Дамп данных таблицы yii_db.yii_card_pix: ~2 rows (приблизительно)
+/*!40000 ALTER TABLE `yii_card_pix` DISABLE KEYS */;
+INSERT INTO `yii_card_pix` (`cardID`, `pixID`) VALUES
+	(1, 1),
+	(3, 1);
+/*!40000 ALTER TABLE `yii_card_pix` ENABLE KEYS */;
 
 
 -- Дамп структуры для таблица yii_db.yii_card_tags
@@ -63,18 +82,34 @@ INSERT INTO `yii_card_tags` (`cardID`, `tagID`) VALUES
 CREATE TABLE IF NOT EXISTS `yii_news` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `visible` int(11) NOT NULL DEFAULT '0',
   `header` varchar(200) NOT NULL DEFAULT '',
   `text` varchar(2000) NOT NULL DEFAULT '',
   `pix` varchar(500) NOT NULL DEFAULT '',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы yii_db.yii_news: ~0 rows (приблизительно)
+-- Дамп данных таблицы yii_db.yii_news: ~3 rows (приблизительно)
 /*!40000 ALTER TABLE `yii_news` DISABLE KEYS */;
-INSERT INTO `yii_news` (`ID`, `date`, `header`, `text`, `pix`) VALUES
-	(1, '2014-03-28 19:13:47', 'супер-новость', 'Ура! в продаже новые бесполезные хрени, спешите купить!', '/img/64x64.svg'),
-	(2, '2014-03-20 19:14:44', 'супер-скидки', 'на бесполезную хрень, которую никто не покупает', '/img/64x64.svg');
+INSERT INTO `yii_news` (`ID`, `date`, `visible`, `header`, `text`, `pix`) VALUES
+	(1, '2014-03-28 19:13:47', 1, 'супер-новость', 'Ура! в продаже новые бесполезные товары, спешите купить!', '/_/img/64x64.svg'),
+	(2, '2014-03-20 19:14:44', 1, 'супер-скидки', 'на бесполезную хрень, которую никто не покупает', '/_/img/64x64.svg'),
+	(4, '2014-03-30 23:01:56', 0, 'тестовая новость', 'скоро будут в продаже супер-крутые товары, но никому не надо об этом говорить', '/_/img/64x64.svg');
 /*!40000 ALTER TABLE `yii_news` ENABLE KEYS */;
+
+
+-- Дамп структуры для таблица yii_db.yii_pix
+CREATE TABLE IF NOT EXISTS `yii_pix` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `path` varchar(300) NOT NULL DEFAULT '',
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+-- Дамп данных таблицы yii_db.yii_pix: ~1 rows (приблизительно)
+/*!40000 ALTER TABLE `yii_pix` DISABLE KEYS */;
+INSERT INTO `yii_pix` (`ID`, `path`) VALUES
+	(1, '/_/img/300x200.svg');
+/*!40000 ALTER TABLE `yii_pix` ENABLE KEYS */;
 
 
 -- Дамп структуры для таблица yii_db.yii_producers
@@ -118,8 +153,8 @@ CREATE TABLE IF NOT EXISTS `yii_purchase_items` (
   `count` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`purchaseID`,`cardID`),
   KEY `FK_yii_purchase_items_yii_cards` (`cardID`),
-  CONSTRAINT `FK_yii_purchase_items_yii_purchases` FOREIGN KEY (`purchaseID`) REFERENCES `yii_purchases` (`ID`),
-  CONSTRAINT `FK_yii_purchase_items_yii_cards` FOREIGN KEY (`cardID`) REFERENCES `yii_cards` (`ID`)
+  CONSTRAINT `FK_yii_purchase_items_yii_cards` FOREIGN KEY (`cardID`) REFERENCES `yii_cards` (`ID`),
+  CONSTRAINT `FK_yii_purchase_items_yii_purchases` FOREIGN KEY (`purchaseID`) REFERENCES `yii_purchases` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы yii_db.yii_purchase_items: ~0 rows (приблизительно)
@@ -127,44 +162,28 @@ CREATE TABLE IF NOT EXISTS `yii_purchase_items` (
 /*!40000 ALTER TABLE `yii_purchase_items` ENABLE KEYS */;
 
 
--- Дамп структуры для таблица yii_db.yii_subtags
-CREATE TABLE IF NOT EXISTS `yii_subtags` (
-  `tagID` int(11) NOT NULL,
-  `parentID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`tagID`),
-  KEY `FK_yii_subtags_yii_tags_2` (`parentID`),
-  CONSTRAINT `FK_yii_subtags_yii_tags` FOREIGN KEY (`tagID`) REFERENCES `yii_tags` (`ID`),
-  CONSTRAINT `FK_yii_subtags_yii_tags_2` FOREIGN KEY (`parentID`) REFERENCES `yii_tags` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- Дамп данных таблицы yii_db.yii_subtags: ~4 rows (приблизительно)
-/*!40000 ALTER TABLE `yii_subtags` DISABLE KEYS */;
-INSERT INTO `yii_subtags` (`tagID`, `parentID`) VALUES
-	(5, 1),
-	(6, 1),
-	(7, 1),
-	(8, 1);
-/*!40000 ALTER TABLE `yii_subtags` ENABLE KEYS */;
-
-
 -- Дамп структуры для таблица yii_db.yii_tags
 CREATE TABLE IF NOT EXISTS `yii_tags` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+  `parentID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `FK_yii_tags_yii_tags` (`parentID`),
+  CONSTRAINT `FK_yii_tags_yii_tags` FOREIGN KEY (`parentID`) REFERENCES `yii_tags` (`ID`) ON DELETE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы yii_db.yii_tags: ~8 rows (приблизительно)
+-- Дамп данных таблицы yii_db.yii_tags: ~15 rows (приблизительно)
 /*!40000 ALTER TABLE `yii_tags` DISABLE KEYS */;
-INSERT INTO `yii_tags` (`ID`, `name`) VALUES
-	(1, 'Для праздников'),
-	(2, 'ручной работы'),
-	(3, 'музыкальные открытки'),
-	(4, '3d-открытки'),
-	(5, 'новый год'),
-	(6, '23 февраля'),
-	(7, '8 марта'),
-	(8, 'день рождения');
+INSERT INTO `yii_tags` (`ID`, `name`, `parentID`) VALUES
+	(1, 'Для праздников', NULL),
+	(2, 'ручной работы', NULL),
+	(3, 'музыкальные открытки', NULL),
+	(4, '3d-открытки', NULL),
+	(5, 'новый год', 1),
+	(6, '23 февраля', 1),
+	(7, '8 марта', 1),
+	(8, 'день рождения', 1),
+	(9, '___тест2', 8);
 /*!40000 ALTER TABLE `yii_tags` ENABLE KEYS */;
 
 

@@ -32,12 +32,8 @@ class TagsController extends Controller
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('create','update'),
-				'users'=>array('@'),
-			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('create','update','admin','delete','search'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -61,23 +57,24 @@ class TagsController extends Controller
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
+	public function actionCreate($id = null)
 	{
-		$model=new Tags;
+        $model=new Tags;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        // Uncomment the following line if AJAX validation is needed
+        $this->performAjaxValidation($model);
 
-		if(isset($_POST['Tags']))
-		{
-			$model->attributes=$_POST['Tags'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
-		}
+        if(isset($_POST['Tags']))
+        {
+            $model->attributes=$_POST['Tags'];
+            if($model->save())
+                $this->redirect(array('admin'));
+        }
+        $model->parentID = $id;
 
-		$this->render('create',array(
-			'model'=>$model,
-		));
+        $this->render('create',array(
+            'model'=>$model,
+        ));
 	}
 
 	/**
@@ -87,21 +84,21 @@ class TagsController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
+        $model=$this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
+        // Uncomment the following line if AJAX validation is needed
+        $this->performAjaxValidation($model);
 
-		if(isset($_POST['Tags']))
-		{
-			$model->attributes=$_POST['Tags'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
-		}
+        if(isset($_POST['Tags']))
+        {
+            $model->attributes=$_POST['Tags'];
+            if($model->save())
+                $this->redirect(array('admin'));
+        }
 
-		$this->render('update',array(
-			'model'=>$model,
-		));
+        $this->render('update',array(
+            'model'=>$model,
+        ));
 	}
 
 	/**
@@ -121,25 +118,35 @@ class TagsController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Tags');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+    public function actionIndex()
+    {
+        $dataProvider=new CActiveDataProvider('Tags');
+        $this->render('index',array(
+            'dataProvider'=>$dataProvider,
+        ));
+    }
+
+
+
+    public function actionAdmin()
+    {
+        $dataProvider=new CActiveDataProvider('Tags');
+        $this->render('admin',array(
+            'dataProvider'=>$dataProvider,
+        ));
+    }
 
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionSearch()
 	{
 		$model=new Tags('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Tags']))
 			$model->attributes=$_GET['Tags'];
 
-		$this->render('admin',array(
+		$this->render('search',array(
 			'model'=>$model,
 		));
 	}

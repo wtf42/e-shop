@@ -6,13 +6,12 @@
  * The followings are the available columns in table 'yii_tags':
  * @property integer $ID
  * @property string $name
+ * @property integer $parentID
  *
  * The followings are the available model relations:
  * @property Cards[] $yiiCards
- * @property Subtags $parentTag1
- * @property Tags $parentTag
- * @property Subtags[] $subtags1
- * @property Tags[] $subtags
+ * @property Tags $parent
+ * @property Tags[] $tags
  */
 class Tags extends CActiveRecord
 {
@@ -33,10 +32,11 @@ class Tags extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
+			array('parentID', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, name', 'safe', 'on'=>'search'),
+			array('ID, name, parentID', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -49,10 +49,8 @@ class Tags extends CActiveRecord
 		// class name for the relations automatically generated below.
 		return array(
 			'yiiCards' => array(self::MANY_MANY, 'Cards', 'yii_card_tags(tagID, cardID)'),
-			'parentTag1' => array(self::HAS_ONE, 'Subtags', 'tagID'),
-			'parentTag' => array(self::HAS_ONE, 'Tags', 'parentID','through'=>'parentTag1'),
-			'subtags1' => array(self::HAS_MANY, 'Subtags', 'parentID'),
-			'subtags' => array(self::HAS_MANY, 'Tags','tagID','through'=>'subtags1'),
+			'parent' => array(self::BELONGS_TO, 'Tags', 'parentID'),
+			'tags' => array(self::HAS_MANY, 'Tags', 'parentID'),
 		);
 	}
 
@@ -63,7 +61,8 @@ class Tags extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'name' => 'Name',
+			'name' => 'Название',
+			'parentID' => 'Родительская категория',
 		);
 	}
 
@@ -87,6 +86,7 @@ class Tags extends CActiveRecord
 
 		$criteria->compare('ID',$this->ID);
 		$criteria->compare('name',$this->name,true);
+		$criteria->compare('parentID',$this->parentID);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

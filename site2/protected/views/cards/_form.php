@@ -14,8 +14,9 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
+<!--
 	<p class="alert alert-warning">Поля с <span class="required">*</span> обязательны.</p>
-
+-->
 	<?php echo $form->errorSummary($model); ?>
 
 	<div class="form-group">

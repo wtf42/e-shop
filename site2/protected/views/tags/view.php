@@ -8,8 +8,8 @@ $this->breadcrumbs=array();
 
 array_push($this->breadcrumbs, $model->name);
 $bc_tag = $model;
-while(isset($bc_tag->parentTag)){
-    $bc_tag = $bc_tag->parentTag;
+while(isset($bc_tag->parent)){
+    $bc_tag = $bc_tag->parent;
     $this->breadcrumbs[$bc_tag->name] = array('view','id'=>$bc_tag->ID);
 }
 $this->breadcrumbs['Категории']=array('index');
@@ -26,10 +26,10 @@ $this->menu=array(
 );*/
 ?>
 <?php
-if (count($model->subtags)){
+if (count($model->tags)){
     echo 'Подкатегории: ';
     $this->widget('TagsList', array(
-        'Tags'=>$model->subtags,
+        'Tags'=>$model->tags,
     ));
     echo '<hr />';
 }
