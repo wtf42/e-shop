@@ -44,7 +44,7 @@ class Cards extends CActiveRecord
 			array('description', 'length', 'max'=>1000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('name, description, producerID, price, sizeX, sizeY, sizeZ, weight', 'safe', 'on'=>'search'),
+			array('name, description, producer_search, price, sizeX, sizeY, sizeZ, weight', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -72,7 +72,7 @@ class Cards extends CActiveRecord
 			'ID' => 'ID',
 			'name' => 'Название',
 			'description' => 'Описание',
-			'producerID' => 'Производитель',
+			'producerID' => 'Producer ID',
 			'price' => 'Цена',
 			'sizeX' => 'Размер X',
 			'sizeY' => 'Размер Y',
@@ -98,11 +98,13 @@ class Cards extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+        $criteria->with=array('producer');
 
-		$criteria->compare('ID',$this->ID);
+		//$criteria->compare('ID',$this->ID);
 		$criteria->compare('name',$this->name,true);
 		$criteria->compare('description',$this->description,true);
-		$criteria->compare('producerID',$this->producerID);
+        //$criteria->compare('producerID',$this->producerID);
+        $criteria->compare('producer.name',$this->producer_search,true);
 		$criteria->compare('price',$this->price);
 		$criteria->compare('sizeX',$this->sizeX);
 		$criteria->compare('sizeY',$this->sizeY);
@@ -113,6 +115,7 @@ class Cards extends CActiveRecord
 			'criteria'=>$criteria,
 		));
 	}
+    public $producer_search;
 
 	/**
 	 * Returns the static model of the specified AR class.

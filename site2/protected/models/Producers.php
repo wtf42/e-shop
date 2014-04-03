@@ -55,7 +55,7 @@ class Producers extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'name' => 'Name',
+			'name' => 'Производитель',
 		);
 	}
 

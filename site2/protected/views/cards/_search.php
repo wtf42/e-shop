@@ -4,61 +4,74 @@
 /* @var $form CActiveForm */
 ?>
 
-<div class="wide form">
+<div class="form-horizontal">
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'action'=>Yii::app()->createUrl($this->route),
 	'method'=>'get',
 )); ?>
 
-	<div class="row">
-		<?php echo $form->label($model,'ID'); ?>
-		<?php echo $form->textField($model,'ID'); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->label($model,'name',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+        <div class="col-sm-8">
+            <?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>200, 'class'=>'form-control')); ?>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'name'); ?>
-		<?php echo $form->textField($model,'name',array('size'=>60,'maxlength'=>200)); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->label($model,'description',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+        <div class="col-sm-8">
+            <?php echo $form->textField($model,'description',array('size'=>60,'maxlength'=>1000, 'class'=>'form-control')); ?>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'description'); ?>
-		<?php echo $form->textField($model,'description',array('size'=>60,'maxlength'=>1000)); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->label($model,'producer.name',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+        <div class="col-sm-8">
+            <?php echo $form->textField($model,'producer_search',array('class'=>'form-control')); ?>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'producerID'); ?>
-		<?php echo $form->textField($model,'producerID'); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->label($model,'price',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+        <div class="col-xs-4 col-sm-2">
+            <?php echo $form->textField($model,'price',array('class'=>'form-control')); ?>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'price'); ?>
-		<?php echo $form->textField($model,'price'); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->label($model,'sizeX',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+        <div class="col-xs-4 col-sm-2">
+            <?php echo $form->textField($model,'sizeX',array('class'=>'form-control')); ?>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'sizeX'); ?>
-		<?php echo $form->textField($model,'sizeX'); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->label($model,'sizeY',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+        <div class="col-xs-4 col-sm-2">
+            <?php echo $form->textField($model,'sizeY',array('class'=>'form-control')); ?>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'sizeY'); ?>
-		<?php echo $form->textField($model,'sizeY'); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->label($model,'sizeZ',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+        <div class="col-xs-4 col-sm-2">
+            <?php echo $form->textField($model,'sizeZ',array('class'=>'form-control')); ?>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'sizeZ'); ?>
-		<?php echo $form->textField($model,'sizeZ'); ?>
-	</div>
+    <div class="form-group">
+        <?php echo $form->label($model,'weight',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+        <div class="col-xs-4 col-sm-2">
+            <?php echo $form->textField($model,'weight',array('class'=>'form-control')); ?>
+        </div>
+    </div>
 
-	<div class="row">
-		<?php echo $form->label($model,'weight'); ?>
-		<?php echo $form->textField($model,'weight'); ?>
-	</div>
-
-	<div class="row buttons">
-		<?php echo CHtml::submitButton('Search'); ?>
-	</div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <?php echo CHtml::submitButton('Поиск',array('class'=>'btn btn-primary col-xs-4')); ?>
+        </div>
+    </div>
 
 <?php $this->endWidget(); ?>
 

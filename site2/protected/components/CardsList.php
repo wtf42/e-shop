@@ -20,7 +20,7 @@ class CardsList extends CWidget {
                             <h3><?php echo CHtml::link($card->name, array('/cards/view','id'=>$card->ID)); ?></h3>
                             <p><?php echo $card->description; ?></p>
                             <p><span class="label label-info"><?php echo $card->price; ?> р.</span></p>
-                            <p><a href="#" class="btn btn-primary" role="button">Купить!</a> <a href="#" class="btn btn-default" role="button">В корзину</a></p>
+                            <p><?php $this->widget('CardBtns', array('id'=>$card->ID));?></p>
                         </div>
                     </div>
                 </div>

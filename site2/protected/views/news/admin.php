@@ -14,15 +14,6 @@ $this->menu=array(
 	array('label'=>'Manage Cards', 'url'=>array('admin')),
 );
 */
-/*
-$this->widget('CardsList', array(
-    'Cards'=>$dataProvider->data,
-));
-$this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
-	'itemView'=>'_view',
-));
-*/
 
 ?>
 <div class="panel panel-info">

@@ -10,11 +10,13 @@
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/bootstrap.min.js"></script>
 
     <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/_/css/main.css" type="text/css"/>
+
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/bootstrap.touchspin.js"></script>
+
+    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/_/css/jquery.jgrowl.css" type="text/css"/>
+    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/jquery.jgrowl.js"></script>
+
     <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/main.js"></script>
-<!--
-    <link rel="stylesheet" href="<?php echo Yii::app()->request->baseUrl; ?>/_/css/bootstrap-image-gallery.css" type="text/css"/>
-    <script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/_/js/bootstrap-image-gallery.js"></script>
--->
     <!--
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
     <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
@@ -64,7 +66,7 @@
                     <li><img src="/_/img/32x32.svg" class="img-responsive" style="position:relative;top:10px;"></li>
                     <li>
                         <p class="navbar-text">
-                            <a href="#" class="navbar-link">Корзина</a>
+                            <a href="/scart/view" class="navbar-link">Корзина</a>
                             <br />
                             <a href="#" class="navbar-link jslink">товары</a>: X шт
                         </p>
@@ -87,6 +89,9 @@
     <hr />
     <p>&copy; geka666, <?php echo date('Y'); ?></p>
 </div>
+
+
+<div id="errors"></div>
 <!--
 	<div id="mainmenu">
 		<?php $this->widget('zii.widgets.CMenu',array(

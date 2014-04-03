@@ -30,10 +30,7 @@ $this->admin_menu=array(
                     </div>
                 </div>
                 <div class="col-sm-12 col-md-8">
-                    <p>
-                        <a href="#" class="btn btn-primary" role="button">Купить!</a>
-                        <a href="#" class="btn btn-default" role="button">В корзину</a>
-                    </p>
+                    <p><?php $this->widget('CardBtns', array('id'=>$model->ID));?></p>
                     <div class="fll mlabel">цена:</div>
                     <div class="fll"><?php echo $model->price; ?> р.</div>
                     <div class="clearfix"></div>

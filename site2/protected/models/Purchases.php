@@ -91,8 +91,8 @@ class Purchases extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('ID',$this->ID);
-		$criteria->compare('userID',$this->userID);
+		//$criteria->compare('ID',$this->ID);
+		//$criteria->compare('userID',$this->userID);
 		$criteria->compare('userComment',$this->userComment,true);
 		$criteria->compare('date',$this->date,true);
 		$criteria->compare('paymentState',$this->paymentState,true);

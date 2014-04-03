@@ -5,14 +5,16 @@
 $this->layout='//layouts/admin';
 $this->menu_selector='cards';
 $this->breadcrumbs=array(
-	'Cards'=>array('index'),
-	'Manage',
+	'Открытки'=>array('admin'),
+	'Поиск',
 );
 
+/*
 $this->menu=array(
 	array('label'=>'List Cards', 'url'=>array('index')),
 	array('label'=>'Create Cards', 'url'=>array('create')),
 );
+*/
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -28,36 +30,36 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage Cards</h1>
+<h3>Поиск открыток</h3>
 
 <p>
-You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
-or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+Можно использовать операторы (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
+or <b>=</b>) в начале кажого значения для поиска
 </p>
 
-<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button')); ?>
+<?php //echo CHtml::link('Расширенный поиск','#',array('class'=>'search-button')); ?>
 <div class="search-form" style="display:none">
 <?php $this->renderPartial('_search',array(
 	'model'=>$model,
 )); ?>
-</div><!-- search-form -->
+</div>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'cards-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
-		'ID',
 		'name',
 		'description',
-		'producerID',
+        array(
+            'name'=>'producer.name',
+            'filter'=>CHtml::activeTextField($model,'producer_search'),
+        ),
 		'price',
 		'sizeX',
-		/*
 		'sizeY',
 		'sizeZ',
-		'weight',
-		*/
+        'weight',
 		array(
 			'class'=>'CButtonColumn',
 		),
