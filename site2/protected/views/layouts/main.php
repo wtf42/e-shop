@@ -52,10 +52,10 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">о магазине <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">оплата</a></li>
-                            <li><a href="#">доставка</a></li>
-                            <li><a href="#">Something else here</a></li>
+                            <li><?php echo CHtml::link('Оплата',array('/eshop/page','view'=>'payment')); ?></li>
+                            <li><?php echo CHtml::link('Доставка',array('/eshop/page','view'=>'delivery')); ?></li>
                             <li class="divider"></li>
+                            <li><?php echo CHtml::link('Псевдо-почта',array('/users/email')); ?></li>
                             <li><?php echo CHtml::link('Админка',array('/eshop/page','view'=>'admin')); ?></li>
                         </ul>
                     </li>

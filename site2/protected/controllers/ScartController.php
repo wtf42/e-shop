@@ -14,7 +14,7 @@ class ScartController extends Controller
             echo 'error: already in cart';
             Yii::app()->end();
         }
-        //echo $id;
+
         $scart[$id]=1;
 
         echo 'добавлено';
@@ -57,10 +57,24 @@ class ScartController extends Controller
         Yii::app()->end();
     }
 
-	public function actionIndex()
-	{
-		$this->render('index');
-	}
+    public function actionIndex()
+    {
+        //Yii::app()->session['scart'] = array();
+        //$this->render('index');
+    }
+
+    /*
+    public function actionClear()
+    {
+        Yii::app()->session['scart'] = array();
+        echo 'ok';
+    }
+
+    public function actionTest()
+    {
+        print_r(Yii::app()->session['scart']);
+    }
+    */
 
 	public function actionView()
 	{
@@ -68,12 +82,12 @@ class ScartController extends Controller
 		$this->render('view');
 	}
 
-    public function actionBuy()
+    public function actionBuy($id)
     {
         $this->prepareSession();
         $scart = Yii::app()->session['scart'];
 
-        $id = Yii::app()->request->getPost('id');
+        //$id = Yii::app()->request->getPost('id');
         if (isset($scart[$id])){
             echo 'error: already in cart';
             $this->redirect(array('scart/view'));

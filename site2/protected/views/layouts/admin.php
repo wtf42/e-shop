@@ -35,28 +35,28 @@ $menu_items = array(
     ),
     array(
         'text'=>'Покупки <span class="badge">42шт</span>',
-        'lnk'=>'/',
+        'lnk'=>'/purchases/admin',
         'icon'=>'glyphicon-shopping-cart',
         'name'=>'purchases',
         'active'=>$this->menu_selector,
     ),
     array(
         'text'=>'Пользователи',
-        'lnk'=>'/',
+        'lnk'=>'/users/admin',
         'icon'=>'glyphicon-user',
         'name'=>'users',
         'active'=>$this->menu_selector,
     ),
-    array(
+    /*array(
         'text'=>'Настройки',
         'lnk'=>'/',
         'icon'=>'glyphicon-wrench',
         'name'=>'settings',
         'active'=>$this->menu_selector,
-    ),
+    ),*/
     array(
         'text'=>'Выход',
-        'lnk'=>'/',
+        'lnk'=>'/site/logout',
         'icon'=>'glyphicon-log-out',
         'name'=>'logout',
         'active'=>$this->menu_selector,

@@ -74,9 +74,8 @@ $this->breadcrumbs=array(
                 <h4 class="text-right">Итого: <strong id="sum">0</strong> р.</h4>
             </div>
             <div class="col-xs-3">
-                <button type="button" class="btn btn-success btn-block">
-                    Оформить заказ
-                </button>
+                <?php echo CHtml::link('Оформить заказ',array('users/buy'),
+                    array('class'=>'btn btn-success btn-block')); ?>
             </div>
         </div>
     </div>

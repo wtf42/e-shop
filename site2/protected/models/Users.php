@@ -5,6 +5,7 @@
  *
  * The followings are the available columns in table 'yii_users':
  * @property integer $ID
+ * @property string $token
  * @property string $FIO
  * @property string $address
  * @property string $mail
@@ -31,11 +32,12 @@ class Users extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('FIO, address, mail, phone', 'required'),
+			array('token, FIO, address, mail, phone', 'required'),
+			array('token', 'length', 'max'=>30),
 			array('FIO, address, mail, phone', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, FIO, address, mail, phone', 'safe', 'on'=>'search'),
+			array('ID, token, FIO, address, mail, phone', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -57,11 +59,12 @@ class Users extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'ID',
-			'FIO' => 'Fio',
-			'address' => 'Address',
-			'mail' => 'Mail',
-			'phone' => 'Phone',
+            'ID' => 'ID Пользователя',
+            'token' => 'Пароль-токен',
+            'FIO' => 'ФИО',
+            'address' => 'Адрес',
+            'mail' => 'Элекстронная почта',
+            'phone' => 'Номер телефона',
 		);
 	}
 
@@ -84,6 +87,7 @@ class Users extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('ID',$this->ID);
+		$criteria->compare('token',$this->token,true);
 		$criteria->compare('FIO',$this->FIO,true);
 		$criteria->compare('address',$this->address,true);
 		$criteria->compare('mail',$this->mail,true);

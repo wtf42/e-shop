@@ -34,7 +34,7 @@ class Purchases extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('userID, date', 'required'),
+			array('userID', 'required'),
 			array('userID, marker', 'numerical', 'integerOnly'=>true),
 			array('userComment', 'length', 'max'=>500),
 			array('paymentState, deliveryState', 'length', 'max'=>50),
@@ -65,7 +65,7 @@ class Purchases extends CActiveRecord
 		return array(
 			'ID' => 'ID',
 			'userID' => 'User',
-			'userComment' => 'User Comment',
+			'userComment' => 'Комментарий к покупке',
 			'date' => 'Date',
 			'paymentState' => 'Payment State',
 			'deliveryState' => 'Delivery State',
