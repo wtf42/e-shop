@@ -2,6 +2,7 @@
 /* @var $this UsersController */
 /* @var $model Users */
 
+$this->layout='//layouts/user';
 $this->breadcrumbs=array(
 	'Users'=>array('index'),
 	$model->ID,

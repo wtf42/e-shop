@@ -101,15 +101,15 @@ class Cards extends CActiveRecord
         $criteria->with=array('producer');
 
 		//$criteria->compare('ID',$this->ID);
-		$criteria->compare('name',$this->name,true);
-		$criteria->compare('description',$this->description,true);
-        //$criteria->compare('producerID',$this->producerID);
+		$criteria->compare('t.name',$this->name,true);
+		$criteria->compare('t.description',$this->description,true);
+        //$criteria->compare('t.producerID',$this->producerID);
         $criteria->compare('producer.name',$this->producer_search,true);
-		$criteria->compare('price',$this->price);
-		$criteria->compare('sizeX',$this->sizeX);
-		$criteria->compare('sizeY',$this->sizeY);
-		$criteria->compare('sizeZ',$this->sizeZ);
-		$criteria->compare('weight',$this->weight);
+		$criteria->compare('t.price',$this->price);
+		$criteria->compare('t.sizeX',$this->sizeX);
+		$criteria->compare('t.sizeY',$this->sizeY);
+		$criteria->compare('t.sizeZ',$this->sizeZ);
+		$criteria->compare('t.weight',$this->weight);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

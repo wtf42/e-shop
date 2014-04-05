@@ -44,7 +44,7 @@ $this->widget('zii.widgets.CListView', array(
     </div>
     <div class="panel-body">
 <?php
-$first = false;
+$first = true;
 foreach($dataProvider->data as $card){
     if ($first) $first=false; else echo "<hr />\n";
 

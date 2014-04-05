@@ -40,7 +40,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a href="<?php echo Yii::app()->createUrl('eshop/index'); ?>">
-                    <img src="/_/img/150x70.svg" class="img-responsive" style="position:relative;top:10px">
+                    <img src="/_/img/logo.png" class="img-responsive" style="position:relative;top:2px">
                 </a>
             </div>
 
@@ -56,14 +56,12 @@
                             <li><?php echo CHtml::link('Доставка',array('/eshop/page','view'=>'delivery')); ?></li>
                             <li class="divider"></li>
                             <li><?php echo CHtml::link('Псевдо-почта',array('/users/email')); ?></li>
-                            <li><?php echo CHtml::link('Админка',array('/eshop/page','view'=>'admin')); ?></li>
+                            <li><?php //echo CHtml::link('Админка',array('/eshop/page','view'=>'admin')); ?></li>
                         </ul>
                     </li>
                 </ul>
-                <!-- зависит уже от пользователя/админа -->
                 <ul class="nav navbar-nav navbar-right">
-                    <!-- корзина <i class="glyphicon glyphicon-shopping-cart img-responsive"></i> -->
-                    <li><img src="/_/img/32x32.svg" class="img-responsive" style="position:relative;top:10px;"></li>
+                    <li><img src="/_/img/cart.png" class="img-responsive" style="position:relative;top:10px;"></li>
                     <li>
                         <p class="navbar-text">
                             <a href="/scart/view" class="navbar-link">Корзина</a>
@@ -71,10 +69,15 @@
                             <a href="#" class="navbar-link jslink">товары</a>: X шт
                         </p>
                     </li>
-                    <!-- авторизация -->
-                    <li><a href="#">вход</a></li>
-                    <li><a href="#">регистрация</a></li>
-                    <!-- <a href="#">личный кабинет</a> -->
+                    <?php
+                    if (Yii::app()->user->isGuest){
+                        echo "<li>".CHtml::link('Вход',array('/eshop/login'))."</li>\n";
+                    }else if (Yii::app()->user->getId() == 1){
+                        echo "<li>".CHtml::link('Админка',array('/eshop/page','view'=>'admin'))."</li>\n";
+                    }else{
+                        echo "<li>".CHtml::link('Мои покупки',array('/purchases/index'))."</li>\n";
+                    }
+                    ?>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

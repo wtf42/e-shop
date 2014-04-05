@@ -3,9 +3,9 @@
 
 $this->pageTitle=Yii::app()->name;
 ?>
-
+<!--
 <h1>It works!</h1>
-
+-->
 <?php
 
 $news = News::model()->findAll();

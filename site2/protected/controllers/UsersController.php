@@ -125,7 +125,11 @@ class UsersController extends Controller
             if($user->save()){
                 if ($guest)
                     $this->CreateUserEnd($user);
-                $this->redirect(array('/purchases/create'));
+
+                if ($guest)
+                    $this->redirect(array('/users/email'));
+                else
+                    $this->redirect(array('/purchases/create'));
             }
         }
 

@@ -37,7 +37,7 @@
 	</div>
 
 	<div class="form-group">
-		<?php echo $form->labelEx($model,'producerID',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
+		<?php echo $form->labelEx($model,'producer.name',array('class'=>'col-xs-3 col-md-2 control-label')); ?>
 		<div class="col-xs-8 col-sm-6">
             <?php
             $producers = Producers::model()->findAll();

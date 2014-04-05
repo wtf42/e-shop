@@ -4,6 +4,10 @@
             <div id="menu" class="col-xs-12 col-sm-3 col-lg-2">
                 <ul class="nav nav-pills nav-stacked admin-menu">
 <?php
+
+$admin_purchases = count(Purchases::model()->need_admin()->findAll());
+$admin_purchases_text = ($admin_purchases === 0) ? '' : ' <span class="badge">'.$admin_purchases.'шт</span>';
+
 $menu_items = array(
     array(
         'text'=>'Админка',
@@ -34,7 +38,7 @@ $menu_items = array(
         'active'=>$this->menu_selector,
     ),
     array(
-        'text'=>'Покупки <span class="badge">42шт</span>',
+        'text'=>'Покупки'.$admin_purchases_text,
         'lnk'=>'/purchases/admin',
         'icon'=>'glyphicon-shopping-cart',
         'name'=>'purchases',

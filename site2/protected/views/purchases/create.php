@@ -19,24 +19,17 @@ $this->breadcrumbs=array(
         </div>
         <div class="panel-body">
             <?php
-            if (count($scart) == 0)
-                echo '<p>Корзина пуста!</p>';
+
+            $items = array();
             foreach($scart as $cardID=>$count){
                 $card=Cards::model()->findByPk($cardID);
-                ?>
-                    <div class="row">
-                    <div class="col-xs-1">
-                        <?php echo CHtml::image('/_/img/32x32.svg'); ?>
-                    </div>
-                    <div class="col-xs-8">
-                        <h5 class="product-name"><?php echo $card->name; ?></h5>
-                    </div>
-                    <div class="col-xs-2 text-right">
-                            <h6><strong><?php echo $count.'шт x '.$card->price; ?>р.</strong></h6>
-                    </div>
-                    </div>
-            <?php
+                array_push($items,array($card=>$count));
             }
+            $this->widget('PurchasesList', array(
+                'items'=>$items,
+                'empty_message'=>'Корзина пуста!',
+            ));
+
             ?>
             </ul>
         </div>

@@ -28,32 +28,21 @@ class PurchasesController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('create','test','pay_begin'),
+				'actions'=>array('create','test'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','update','pay_end'),
+				'actions'=>array('index','update','pay_begin','pay_end'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','search'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
 		);
-	}
-
-	/**
-	 * Displays a particular model.
-	 * @param integer $id the ID of the model to be displayed
-	 */
-	public function actionView($id)
-	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
 	}
 
 	/**
@@ -143,8 +132,47 @@ class PurchasesController extends Controller
         $model->marker=1;
         $model->save();
         echo '<br />';
-        echo "<a href='/purchases/view/$id'>next (view)</a>";
+        echo "<a href='/purchases/index'>next (view)</a>";
+        //echo "<a href='/purchases/view/$id'>next (view)</a>";
     }
+
+
+
+    //список пользователя
+    public function actionIndex()
+    {
+        if (Yii::app()->user->isGuest){
+            $this->redirect(array('/eshop/login'));
+        }
+        $userID = Yii::app()->user->getId();
+
+        $criteria=new CDbCriteria;
+        $criteria->compare('userID',$userID);
+        $dataProvider = new CActiveDataProvider('Purchases', array('criteria'=>$criteria,));
+
+        $this->render('index',array(
+            'dataProvider'=>$dataProvider,
+        ));
+    }
+
+/* не нужно
+    public function actionView($id)
+    {
+        if (Yii::app()->user->isGuest){
+            $this->redirect(array('/eshop/login'));
+        }
+        $userID = Yii::app()->user->getId();
+        $user=Users::model()->findByPk($userID);
+        $model = $this->loadModel($id);
+
+        if ($model->userID !== $userID && $user->mail !== 'admin')
+            throw new CHttpException(403,'Доступ запрещен.');
+
+        $this->render('view',array(
+            'model'=>$model,
+        ));
+    }
+*/
 
 	/**
 	 * Updates a particular model.
@@ -161,8 +189,17 @@ class PurchasesController extends Controller
 		if(isset($_POST['Purchases']))
 		{
 			$model->attributes=$_POST['Purchases'];
+
+            if ($model->paymentState==='end' && $model->deliveryState==='end')
+                $model->marker = 2;
+            else if ($model->paymentState==='end')
+                $model->marker = 1;
+            else
+                $model->marker = 0;
+
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
+				$this->redirect(array('admin'));
+			//	$this->redirect(array('view','id'=>$model->ID));
 		}
 
 		$this->render('update',array(
@@ -184,28 +221,27 @@ class PurchasesController extends Controller
 			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
 	}
 
-	/**
-	 * Lists all models.
-	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Purchases');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+
+
+    public function actionAdmin()
+    {
+        $purchases=Purchases::model()->need_admin()->findAll();
+        $this->render('admin',array(
+            'purchases'=>$purchases,
+        ));
+    }
 
 	/**
 	 * Manages all models.
 	 */
-	public function actionAdmin()
+	public function actionSearch()
 	{
 		$model=new Purchases('search');
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['Purchases']))
 			$model->attributes=$_GET['Purchases'];
 
-		$this->render('admin',array(
+		$this->render('search',array(
 			'model'=>$model,
 		));
 	}

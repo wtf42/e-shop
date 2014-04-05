@@ -64,12 +64,12 @@ class Purchases extends CActiveRecord
 	{
 		return array(
 			'ID' => 'ID',
-			'userID' => 'User',
+			'userID' => 'Пользователь',
 			'userComment' => 'Комментарий к покупке',
-			'date' => 'Date',
-			'paymentState' => 'Payment State',
-			'deliveryState' => 'Delivery State',
-			'marker' => 'Marker',
+			'date' => 'Дата покупки',
+			'paymentState' => 'Состояние оплаты',
+			'deliveryState' => 'Состояние доставки',
+			'marker' => 'Этап покупки',
 		);
 	}
 
@@ -90,6 +90,7 @@ class Purchases extends CActiveRecord
 		// @todo Please modify the following code to remove attributes that should not be searched.
 
 		$criteria=new CDbCriteria;
+        $criteria->with=array('user');
 
 		//$criteria->compare('ID',$this->ID);
 		//$criteria->compare('userID',$this->userID);
@@ -114,4 +115,15 @@ class Purchases extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+
+
+    public function scopes()
+    {
+        return array(
+            'need_admin'=>array(
+                'condition'=>'marker=1',
+            ),
+        );
+    }
 }
