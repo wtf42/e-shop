@@ -23,6 +23,11 @@ print_tree(array_filter(Tags::model()->findAll(), function ($tag){ return !isset
 
 ?>
                 </ul>
+                <div class="">
+                    <?php echo CHtml::link('Поиск открыток',
+                        array('/cards/search'),
+                        array('class'=>'btn btn-xs btn-default')); ?>
+                </div>
             </div>
             <div id="content" class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
                 <!-- breadcrumbs -->

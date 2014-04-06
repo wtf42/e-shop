@@ -2,7 +2,7 @@
 /* @var $this CardsController */
 /* @var $model Cards */
 
-$this->layout='//layouts/admin';
+$this->layout='//layouts/user';
 $this->menu_selector='cards';
 $this->breadcrumbs=array(
 	'Открытки'=>array('admin'),
@@ -28,6 +28,15 @@ $('.search-form form').submit(function(){
 	return false;
 });
 ");
+
+function is_admin(){
+    if (Yii::app()->user->isGuest) return false;
+    $userID = Yii::app()->user->getId();
+    $user=Users::model()->findByPk($userID);
+    return $user->mail === 'admin';
+}
+$visible_edit = is_admin() ? 'true' : 'false';
+
 ?>
 
 <h3>Поиск открыток</h3>
@@ -62,6 +71,17 @@ or <b>=</b>) в начале кажого значения для поиска
         'weight',
 		array(
 			'class'=>'CButtonColumn',
+            'buttons'=>array(
+                'view'=>array(
+                    'visible'=>'true',
+                ),
+                'update'=>array(
+                    'visible'=>$visible_edit,
+                ),
+                'delete'=>array(
+                    'visible'=>$visible_edit,
+                ),
+            ),
 		),
 	),
 )); ?>

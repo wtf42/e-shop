@@ -2,6 +2,8 @@
 /* @var $this UsersController */
 /* @var $model Users */
 
+$this->layout = '//layouts/admin2';
+$this->menu_selector = 'users';
 $this->breadcrumbs=array(
 	'Users'=>array('index'),
 	'Create',

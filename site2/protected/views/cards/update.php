@@ -19,6 +19,18 @@ $this->menu=array(
 );*/
 ?>
 
-<h3>Редактирование открытки</h3>
-
-<?php $this->renderPartial('_form', array('model'=>$model)); ?>
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <div class="panel-title">
+            <div class="row">
+                <div class="col-xs-4">
+                    <h4>Редактирование открытки</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+        <?php $this->renderPartial('_form', array('model'=>$model)); ?>
+    </div>
+    <div class="panel-footer"></div>
+</div>

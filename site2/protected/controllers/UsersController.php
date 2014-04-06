@@ -28,15 +28,15 @@ class UsersController extends Controller
 	{
 		return array(
             array('allow',
-                'actions'=>array('create','buy','email','email_clr'),
+                'actions'=>array('buy','email','email_clr'),
                 'users'=>array('*'),
             ),
             array('allow',
-                'actions'=>array('view','update'),
+                'actions'=>array(),
                 'users'=>array('@'),
             ),
 			array('allow',
-				'actions'=>array('index','admin','delete'),
+				'actions'=>array('create','index','view','update','admin','delete'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users

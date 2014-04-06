@@ -114,7 +114,6 @@ $this->breadcrumbs=array(
             data: { id: cid, cnt: val},
             success: function (data, textStatus) {
                 $.jGrowl(data);
-                //alert(data);
             },
             error: function (data, textStatus) {
                 $.jGrowl("ошибка: "+textStatus);

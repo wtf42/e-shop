@@ -33,7 +33,7 @@ class CardsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('create','update','admin','delete'),
+				'actions'=>array('create','update','admin','delete','tag_add','tag_delete'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -68,7 +68,8 @@ class CardsController extends Controller
 		{
 			$model->attributes=$_POST['Cards'];
 			if($model->save())
-				$this->redirect(array('view','id'=>$model->ID));
+                $this->redirect(array('view','id'=>$model->ID));
+            //$this->redirect(array('admin'));
 		}
 
 		$this->render('create',array(
@@ -105,14 +106,42 @@ class CardsController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id)
-	{
-		$this->loadModel($id)->delete();
+    public function actionDelete($id)
+    {
+        $this->loadModel($id)->delete();
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
-	}
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if(!isset($_GET['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+    }
+
+
+    public function actionTag_add()
+    {
+        if(!isset($_POST['id']) || !isset($_POST['tag'])) return;
+        $ctag=new CardTags;
+        $ctag->cardID = $_POST['id'];
+        $ctag->tagID = $_POST['tag'];
+        if ($ctag->save())
+            echo 'добавлено';
+        else
+            echo 'error';
+        Yii::app()->end();
+    }
+    public function actionTag_delete()
+    {
+        if(!isset($_POST['id']) || !isset($_POST['tag'])) return;
+
+        $ctag = CardTags::model()->findByPk(array('cardID'=>$_POST['id'],'tagID'=>$_POST['tag']));
+        if (!is_null($ctag)){
+            $ctag->delete();
+            echo 'удалено';
+        } else
+            echo 'ошибка: тег не найден';
+
+        Yii::app()->end();
+    }
+
 
 	/**
 	 * Lists all models.

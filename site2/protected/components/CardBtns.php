@@ -13,11 +13,11 @@ class CardBtns extends CWidget {
                     'type'=>'POST',
                     'url'=>Yii::app()->createUrl('scart/add'),
                     'data' => array(
-                        'YII_CSRF_TOKEN' => Yii::app()->request->csrfToken,
+                        //'YII_CSRF_TOKEN' => Yii::app()->request->csrfToken,
                         'id'=>$this->id,
                     ),
-                    'success'=>'function(data) { alert(data); }',
-                    'error'=>'function(data, textStatus) { ; }',
+                    'success'=>'function(data) { $.jGrowl(data); }',
+                    'error'=>'function(data, textStatus) { $.jGrowl("ошибка: "+data); }',
                 ),
                 'class'=>'btn btn-default',
             ));

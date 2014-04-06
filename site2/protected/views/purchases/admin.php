@@ -65,9 +65,17 @@ $this->breadcrumbs=array(
                 </div>
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-2">
-                        <?php echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span> Редактировать',
+                        <?php
+                        echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span> Редактировать',
                             array('/purchases/update','id'=>$purchase->ID),
-                            array('class' => 'btn btn-primary btn-xs')); ?>
+                            array('class' => 'btn btn-primary btn-xs'));
+                        echo ' ';
+                        echo CHtml::link('<span class="glyphicon glyphicon-trash"></span>',
+                            '#',
+                            array('class' => 'btn btn-danger btn-xs',
+                                'submit'=>array('delete','id'=>$purchase->ID),
+                                'confirm'=>'Вы уверены что хотите удалить информацию о покупке #"'.$purchase->ID.'"?'));
+                        ?>
                     </div>
                 </div>
             </div>

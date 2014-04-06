@@ -11,7 +11,7 @@ class ScartController extends Controller
 
         $id = Yii::app()->request->getPost('id');
         if (isset($scart[$id])){
-            echo 'error: already in cart';
+            echo 'уже есть в корзине!';
             Yii::app()->end();
         }
 
@@ -30,7 +30,7 @@ class ScartController extends Controller
 
         $id = Yii::app()->request->getPost('id');
         if (!isset($scart[$id])){
-            echo 'error: not found';
+            echo 'ошибка: ID не найдено';
             Yii::app()->end();
         }
         unset($scart[$id]);

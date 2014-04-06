@@ -3,11 +3,9 @@
 /* @var $model Cards */
 
 $this->layout='//layouts/user';
-
 $this->breadcrumbs=array(
 	'Открытки'=>array('index'),
     'Просмотр открытки'
-	/*$model->name,*/
 );
 /*
 $this->admin_menu=array(

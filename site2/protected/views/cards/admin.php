@@ -34,7 +34,10 @@ $this->widget('zii.widgets.CListView', array(
                     <h4>Открытки:</h4>
                 </div>
                 <div class="pull-right">
+                    <!--
                     <a href="#" class="btn btn-sm btn-default">Выбрать категории</a>
+                    TODO
+                    -->
                     <?php echo CHtml::link('Поиск', array('/cards/search'), array('class'=>'btn btn-sm btn-default')); ?>
                     <?php echo CHtml::link('<span class="glyphicon glyphicon-plus"></span> Создать',
                         array('/cards/create'), array('class'=>'btn btn-primary')); ?>
