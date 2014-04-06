@@ -1,5 +1,7 @@
 .idea
-yii
-yii_
-drafts
-info
+/yii
+/drafts
+/info
+/site2/protected/runtime/application.log
+/site2/assets
+/site2/uploads

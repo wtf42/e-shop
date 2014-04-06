@@ -6,7 +6,7 @@ class CardsController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	public $layout='//layouts/empty';
     public $menu_selector=null;
 
 	/**
@@ -33,7 +33,9 @@ class CardsController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('create','update','admin','delete','tag_add','tag_delete'),
+				'actions'=>array('create','update','admin','delete',
+                    'tag_add','tag_delete',
+                    'pix','pix_add','pix_del','pix_up','pix_get','pix_list'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -86,7 +88,6 @@ class CardsController extends Controller
 	{
 		$model=$this->loadModel($id);
 
-		// Uncomment the following line if AJAX validation is needed
 		$this->performAjaxValidation($model);
 
 		if(isset($_POST['Cards']))
@@ -100,6 +101,78 @@ class CardsController extends Controller
 			'model'=>$model,
 		));
 	}
+
+    public function actionPix($id)
+    {
+        $model=$this->loadModel($id);
+
+        Yii::import("xupload.models.XUploadForm");
+        $pix = new XUploadForm;
+
+        $this->render('pix',array(
+            'model'=>$model,
+            'pix'=>$pix,
+        ));
+    }
+    public function actionPix_list()
+    {
+        foreach(Pix::getList() as $pix){
+            echo "<option value='".CHtml::encode($pix)."'>".CHtml::encode($pix)."</option>";
+        }
+    }
+
+    public function actionPix_add(){
+        //
+        if(!isset($_POST['id']) || !isset($_POST['pix'])) return;
+        $id = $_POST['id'];
+        $pix_path = $_POST['pix'];
+        if (!in_array($pix_path,Pix::getList())) return;
+
+        $pix = new Pix;
+        $pix->path = $pix_path;
+        $pix->save();
+
+        $card_pix = new CardPix();
+        $card_pix->cardID = $id;
+        $card_pix->pixID = $pix->ID;
+        $card_pix->save();
+
+        echo 'ok';
+
+        //Yii::app()->end();
+    }
+    public function actionPix_del(){
+        if(!isset($_POST['id'])) return;
+        $id = $_POST['id'];
+
+        $criteria=new CDbCriteria;
+        $criteria->compare('cardID',$id);
+        $data = new CActiveDataProvider('CardPix', array('criteria'=>$criteria,));
+        foreach($data->data as $card_pix)
+            $card_pix->delete();
+
+        echo 'ok';
+
+        //Yii::app()->end();
+    }
+    public function actionPix_get(){
+        if(!isset($_POST['id'])) return;
+        $id = $_POST['id'];
+
+        $criteria=new CDbCriteria;
+        $criteria->compare('cardID',$id);
+        $data = new CActiveDataProvider('CardPix', array('criteria'=>$criteria));
+
+        if (count($data->data))
+            echo Pix::model()->findByPk($data->data[0]->pixID)->path;
+        else echo '';
+
+        //Yii::app()->end();
+    }
+    public function actionPix_up(){
+        $this->actionPix_del();
+        $this->actionPix_add();
+    }
 
 	/**
 	 * Deletes a particular model.

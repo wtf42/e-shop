@@ -18,6 +18,12 @@ class EShopController extends CController
             'page'=>array(
                 'class'=>'CViewAction',
             ),
+            'upload'=>array(
+                'class'=>'xupload.actions.XUploadAction',
+                'path' => Yii::app()->params['images_dir'],
+                'publicPath' => Yii::app()->params['images_public_dir'],
+                'subfolderVar' => "",
+            ),
         );
     }
 
@@ -72,5 +78,11 @@ class EShopController extends CController
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
     }
-
+/*
+    public function actionPix(){
+        Yii::import("xupload.models.XUploadForm");
+        $model = new XUploadForm;
+        $this -> render('empty', array('model' => $model));
+    }
+*/
 }

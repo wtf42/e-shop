@@ -6,12 +6,12 @@
 
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'cards-form',
-    'htmlOptions'=>array('class'=>'form-horizontal'),
+    'htmlOptions'=>array('class'=>'form-horizontal','cid'=>$model->ID),
 	// Please note: When you enable ajax validation, make sure the corresponding
 	// controller action is handling ajax validation correctly.
 	// There is a call to performAjaxValidation() commented in generated controller code.
 	// See class documentation of CActiveForm for details on this.
-	'enableAjaxValidation'=>false,
+	'enableAjaxValidation'=>true,
 )); ?>
 
 <?php echo $form->errorSummary($model); ?>
@@ -40,17 +40,13 @@
         $producers = Producers::model()->findAll();
         $list = CHtml::listData($producers, 'ID', 'name');
         echo $form->dropDownList($model,'producerID', $list,
-            array('prompt'=>'Выберите производителя...','class'=>'form-control'));
+            array('prompt'=>'Выберите производителя...','class'=>'form-control p_list'));
         ?>
         <?php echo $form->error($model,'producerID'); ?>
     </div>
     <div class="col-xs-1">
         <?php echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span>...',
-            array('/producers/admin'), array('class'=>'btn btn-sm btn-default colorbox'));
-
-        $colorbox = $this->widget('application.extensions.colorpowered.JColorBox');
-        $colorbox->addInstance('.colorbox', array('iframe'=>true, 'height'=>'90%', 'width'=>'90%'));
-        ?>
+            array('/producers/admin'), array('class'=>'btn btn-sm btn-default colorbox_iframe')); ?>
     </div>
 </div>
 
@@ -124,6 +120,27 @@
         </div>
     </div>
 </div>
+<hr />
+<div class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Картинка</label>
+        <div class="col-sm-10">
+            <div class="row">
+                <div class="col-sm-5">
+                    <select class="form-control" id="pix_selector" cid="<?php echo $model->ID; ?>">
+                        <option value="">Выберите картинку...</option>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <?php echo CHtml::link('<span class="glyphicon glyphicon-refresh"></span>',
+                        "#", array('class'=>'btn btn-sm btn-default','id'=>'pix_update')); ?>
+                    <?php echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span> Загрузить картинки',
+                        array('/cards/pix','id'=>$model->ID), array('class'=>'btn btn-sm btn-default colorbox')); ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <?php } ?>
 <hr />
 <div class="form-group">
@@ -134,7 +151,6 @@
 </div>
 
 <?php $this->endWidget(); ?>
-
 <script>
     var del_clicker=function(){
         var cid = $(this).attr('cid');
@@ -178,4 +194,80 @@
     };
     $(".tag_delete").click(del_clicker);
     $(".tag_add").click(add_clicker);
+
+    var producers_update = function(){
+        //var cid = $("#cards-form").attr('cid');
+        var sel = $(".p_list").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo Yii::app()->createUrl('/producers/list'); ?>",
+            data: {  },
+            success: function (data, textStatus) {
+                $(".p_list").html('<option value="">Выберите производителя...</option>' + data);
+                $(".p_list").val(sel);
+                //$.jGrowl(data);
+            },
+            error: function (data, textStatus) {
+                $.jGrowl("ошибка0: "+textStatus);
+            }
+        });
+    };
+
+    var pix_select = function(){
+        var cid = $("#pix_selector").attr('cid');
+        $.ajax({
+            type: "POST",
+            url: "<?php echo Yii::app()->createUrl('/cards/pix_get'); ?>",
+            data: { id: cid },
+            success: function (data, textStatus) {
+                $("#pix_selector").val(data);
+                //$.jGrowl(data);
+            },
+            error: function (data, textStatus) {
+                $.jGrowl("ошибка1: "+textStatus);
+            }
+        });
+        //return false;
+    };
+    var pix_update = function(){
+        var cid = $("#pix_selector").attr('cid');
+        $.ajax({
+            type: "POST",
+            url: "<?php echo Yii::app()->createUrl('/cards/pix_list'); ?>",
+            data: { id: cid },
+            success: function (data, textStatus) {
+                $("#pix_selector").html('<option value="">Выберите картинку...</option>' + data);
+                pix_select();
+                //$.jGrowl(data);
+            },
+            error: function (data, textStatus) {
+                $.jGrowl("ошибка2: "+textStatus);
+            }
+        });
+        return false;
+    };
+
+    $('.colorbox_iframe').colorbox({onClosed: producers_update,'iframe':true,'height':'90%','width':'90%'});
+    $('.colorbox').colorbox({onClosed: pix_update,'iframe':false,'height':'90%','width':'90%'});
+
+    $("#cboxClose").click(pix_update);
+    $("#pix_update").click(pix_update);
+
+    $("#pix_selector").change(function(){
+        var cid = $("#pix_selector").attr('cid');
+        var pix = $("#pix_selector").val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo Yii::app()->createUrl('/cards/pix_up'); ?>",
+            data: { id: cid, pix: pix },
+            success: function (data, textStatus) {
+                $.jGrowl(data);
+            },
+            error: function (data, textStatus) {
+                $.jGrowl("ошибка3: "+textStatus);
+            }
+        });
+    });
+
+    pix_update();
 </script>

@@ -1,23 +1,20 @@
 <?php
 
 /**
- * This is the model class for table "yii_pix".
+ * This is the model class for table "yii_card_pix".
  *
- * The followings are the available columns in table 'yii_pix':
- * @property integer $ID
- * @property string $path
- *
- * The followings are the available model relations:
- * @property Cards[] $yiiCards
+ * The followings are the available columns in table 'yii_card_pix':
+ * @property integer $cardID
+ * @property integer $pixID
  */
-class Pix extends CActiveRecord
+class CardPix extends CActiveRecord
 {
 	/**
 	 * @return string the associated database table name
 	 */
 	public function tableName()
 	{
-		return 'yii_pix';
+		return 'yii_card_pix';
 	}
 
 	/**
@@ -28,10 +25,11 @@ class Pix extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('path', 'length', 'max'=>300),
+			array('cardID, pixID', 'required'),
+			array('cardID, pixID', 'numerical', 'integerOnly'=>true),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('ID, path', 'safe', 'on'=>'search'),
+			array('cardID, pixID', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -43,7 +41,6 @@ class Pix extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'yiiCards' => array(self::MANY_MANY, 'Cards', 'yii_card_pix(pixID, cardID)'),
 		);
 	}
 
@@ -53,8 +50,8 @@ class Pix extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-			'ID' => 'ID',
-			'path' => 'Path',
+			'cardID' => 'Card',
+			'pixID' => 'Pix',
 		);
 	}
 
@@ -76,8 +73,8 @@ class Pix extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 
-		$criteria->compare('ID',$this->ID);
-		$criteria->compare('path',$this->path,true);
+		$criteria->compare('cardID',$this->cardID);
+		$criteria->compare('pixID',$this->pixID);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -88,23 +85,10 @@ class Pix extends CActiveRecord
 	 * Returns the static model of the specified AR class.
 	 * Please note that you should have this exact method in all your CActiveRecord descendants!
 	 * @param string $className active record class name.
-	 * @return Pix the static model class
+	 * @return CardPix the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
 	}
-
-
-    public static function getList(){
-        $path = Yii::app()->params['images_dir'];
-        //return scandir($path);
-        $ans = array();
-        $objects = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
-        foreach($objects as $name => $object){
-            if (!is_dir($name))
-                array_push($ans,substr($name,strlen($path)));
-        }
-        return $ans;
-    }
 }

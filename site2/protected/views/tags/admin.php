@@ -60,17 +60,11 @@ print_tree(array_filter($all_tags, function ($tag){ return !isset($tag->parent);
 ?>
 </ul>
 
-<?php
-
-$colorbox = $this->widget('application.extensions.colorpowered.JColorBox');
-$colorbox->addInstance('.colorbox', array('height'=>'300px', 'width'=>'90%'));
-
-?>
-
 <script>
     $(document).ready(function(){
         $(".drop").trigger('click');
     });
+    $('.colorbox').colorbox({'iframe':false,'height':'350px','width':'90%'});
 </script>
 
 

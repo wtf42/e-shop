@@ -20,6 +20,10 @@ return array(
 		'application.components.*',
 	),
 
+    'aliases' => array(
+        'xupload' => 'ext.xupload',
+    ),
+
     'defaultController'=>'eshop',
 
 	'modules'=>array(
@@ -84,6 +88,16 @@ return array(
 				*/
 			),
 		),
+
+
+        /*
+        'clientScript'=>array(
+            'scriptMap'=>array(
+                'jquery.js'=>false,
+            ),
+            'enableJavaScript'=>false,    // Эта опция отключает любую генерацию javascript'а фреймворком
+        ),
+        */
 	),
 
 	// application-level parameters that can be accessed
@@ -92,6 +106,11 @@ return array(
 		// this is used in contact page
 		'adminEmail'=>'webmaster@example.com',
         'phone'=>'+78001234678',
-        'default_pix'=>'/_/img/300x200.svg',
+        'default_pix'=>'/_/img/no_image.png',
+        //'default_pix'=>'/_/img/300x200.svg',
+        'images_dir'=>"uploads/",
+        'images_public_dir'=>"/uploads/",
+        //'images_dir'=>dirname(__FILE__)."/../../uploads/",
+        //'images_public_dir'=>dirname(__FILE__)."/../../uploads/",
 	),
 );

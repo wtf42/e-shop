@@ -6,7 +6,7 @@ class ProducersController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/colorbox';
+	public $layout='//layouts/colorbox2';
     public $menu_selector = '';
 
 	/**
@@ -29,7 +29,7 @@ class ProducersController extends Controller
 	{
 		return array(
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','index','view','create','update','delete'),
+				'actions'=>array('admin','index','view','create','update','delete','list'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -113,13 +113,21 @@ class ProducersController extends Controller
 	/**
 	 * Lists all models.
 	 */
-	public function actionIndex()
-	{
-		$dataProvider=new CActiveDataProvider('Producers');
-		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
-		));
-	}
+    public function actionIndex()
+    {
+        $dataProvider=new CActiveDataProvider('Producers');
+        $this->render('index',array(
+            'dataProvider'=>$dataProvider,
+        ));
+    }
+
+    public function actionList()
+    {
+        $this->layout = '//layouts/empty';
+        foreach(Producers::model()->findAll() as $prod){
+            echo '<option value="'.$prod->ID.'">'.$prod->name.'</option>';
+        }
+    }
 
 	/**
 	 * Manages all models.

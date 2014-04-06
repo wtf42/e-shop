@@ -41,7 +41,7 @@ class Cards extends CActiveRecord
 			array('name, description, producerID, price, sizeX, sizeY, sizeZ, weight', 'required'),
 			array('producerID, price, sizeX, sizeY, sizeZ, weight', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
-			array('description', 'length', 'max'=>1000),
+			array('description', 'length', 'max'=>2000),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('name, description, producer_search, price, sizeX, sizeY, sizeZ, weight', 'safe', 'on'=>'search'),

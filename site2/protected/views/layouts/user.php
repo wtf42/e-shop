@@ -23,10 +23,15 @@ print_tree(array_filter(Tags::model()->findAll(), function ($tag){ return !isset
 
 ?>
                 </ul>
-                <div class="">
+                <div class="row">
+                    <?php echo CHtml::link('Все открытки',
+                        array('/cards/index'),
+                        array('class'=>'btn btn-xs btn-default col-xs-8 col-xs-offset-1')); ?>
+                </div>
+                <div class="row">
                     <?php echo CHtml::link('Поиск открыток',
                         array('/cards/search'),
-                        array('class'=>'btn btn-xs btn-default')); ?>
+                        array('class'=>'btn btn-xs btn-default col-xs-8 col-xs-offset-1')); ?>
                 </div>
             </div>
             <div id="content" class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
