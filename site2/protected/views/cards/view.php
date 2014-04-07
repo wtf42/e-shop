@@ -71,4 +71,19 @@ $this->admin_menu=array(
                     <div class="fll"><?php echo $model->description; ?></div>
                     <div class="clearfix"></div>
                 </div>
+<div class="clearfix"></div>
+<hr />
+<div class="row">
+    <h3>С этим товаром также покупают:</h3>
+</div>
+<?php
+
+$recCards = array();
+foreach($rec as $cardID){ array_push($recCards,Cards::model()->findByPk($cardID)); }
+
+//print_r($rec);
+//print_r($recCards);
+$this->widget('CardsList', array('Cards'=>$recCards,));
+
+?>
 

@@ -16,7 +16,7 @@ $this->breadcrumbs=array(
                 </div>
                 <div class="col-xs-4">
                     <?php echo CHtml::link('<span class="glyphicon glyphicon-share-alt"></span> Продолжить покупки',
-                        array('/tags/index'),
+                        array('/cards/index'),
                         array('class'=>'btn btn-primary btn-sm btn-block')); ?>
                 </div>
             </div>
@@ -34,7 +34,7 @@ $this->breadcrumbs=array(
             if ($card == null) continue;
 
             $pix = Yii::app()->params['default_pix'];
-            if (count($card->yiiPixes)) $pix = $card->yiiPixes[0]->path;
+            if (count($card->yiiPixes)) $pix = Yii::app()->params['images_public_dir'] . $card->yiiPixes[0]->path;
             ?>
             <div class="row">
                 <div class="col-xs-2">

@@ -6,7 +6,17 @@ class UsersController extends Controller
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
-	public $layout='//layouts/column2';
+	public $layout='//layouts/empty';
+
+    public function actions()
+    {
+        return array(
+            'captcha'=>array(
+                'class'=>'CCaptchaAction',
+                'backColor'=>0xFFFFFF,
+            ),
+        );
+    }
 
 	/**
 	 * @return array action filters
@@ -28,7 +38,7 @@ class UsersController extends Controller
 	{
 		return array(
             array('allow',
-                'actions'=>array('buy','email','email_clr'),
+                'actions'=>array('buy','email','email_clr','captcha'),
                 'users'=>array('*'),
             ),
             array('allow',
@@ -143,7 +153,10 @@ class UsersController extends Controller
         $user->token = $password;
     }
     protected function CreateUserEnd($user){
-        $text = print_r($user,true);
+
+        //$text = print_r($user,true);
+        $text = 'пользователь: '.$user->mail.', пароль: '.$user->token;
+
         $this->sendEmail($user,$text);
         $identity=new UserIdentity($user->mail,$user->token);
         if ($identity->authenticate())

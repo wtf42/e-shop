@@ -12,7 +12,13 @@ class PurchasesList extends CWidget {
             ?>
             <div class="row">
                 <div class="col-xs-1">
-                    <?php echo CHtml::image('/_/img/32x32.svg'); ?>
+                    <?php
+                    $pix = Yii::app()->params['default_pix'];
+                    if (count($card->yiiPixes)) $pix = Yii::app()->params['images_public_dir'] . $card->yiiPixes[0]->path;
+
+                    $img = CHtml::image($pix, $card->name, array('width'=>'32px','height'=>'32px'));
+                    echo $img;
+                    ?>
                 </div>
                 <div class="col-xs-8">
                     <h5 class="product-name"><?php echo $card->name; ?></h5>

@@ -51,6 +51,25 @@
 		</div>
 	</div>
 
+
+<?php if(CCaptcha::checkRequirements()): ?>
+    <div class="form-group">
+        <?php echo $form->labelEx($model,'verifyCode',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-8">
+            <div class="row">
+                <?php $this->widget('CCaptcha'); ?>
+            </div>
+            <div class="row">
+                <div class="col-sm-5">
+                    <?php echo $form->textField($model,'verifyCode',array('class'=>'form-control')); ?>
+                </div>
+            </div>
+            <h5><small>Введите буквы на картинке, буквы регистронезависимы</small></h5>
+            <?php echo $form->error($model,'verifyCode'); ?>
+        </div>
+    </div>
+<?php endif; ?>
+
 	<div class="form-group">
 		<div class="col-sm-offset-2 col-sm-10">
 			<?php echo CHtml::submitButton($submit_text, array('class'=>$submit_style)); ?>

@@ -23,7 +23,8 @@ $this->breadcrumbs=array(
             $items = array();
             foreach($scart as $cardID=>$count){
                 $card=Cards::model()->findByPk($cardID);
-                array_push($items,array($card=>$count));
+                //array_push($items,array($card=>$count));
+                array_push($items,array($card,$count));
             }
             $this->widget('PurchasesList', array(
                 'items'=>$items,

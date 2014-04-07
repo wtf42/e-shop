@@ -35,7 +35,7 @@ class CardsController extends Controller
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('create','update','admin','delete',
                     'tag_add','tag_delete',
-                    'pix','pix_add','pix_del','pix_up','pix_get','pix_list'),
+                    'pix','pix_add','pix_del','pix_up','pix_get','pix_list','pix_resize'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -50,8 +50,11 @@ class CardsController extends Controller
 	 */
 	public function actionView($id)
 	{
+        $rec = $this->getRecommendations($id);
+
 		$this->render('view',array(
 			'model'=>$this->loadModel($id),
+            'rec'=>$rec,
 		));
 	}
 
@@ -119,6 +122,14 @@ class CardsController extends Controller
         foreach(Pix::getList() as $pix){
             echo "<option value='".CHtml::encode($pix)."'>".CHtml::encode($pix)."</option>";
         }
+    }
+    public function actionPix_resize(){
+        //
+        if(!isset($_POST['pix'])) return;
+        $pix_path = $_POST['pix'];
+        if (!in_array($pix_path,Pix::getList())) return;
+
+        //
     }
 
     public function actionPix_add(){
@@ -277,4 +288,50 @@ class CardsController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+
+    protected function getRecommendations($id){
+        //
+        $card = $this->loadModel($id);
+        $purchases = Purchases::model()->findAll();
+        $rec = array();
+        foreach($purchases as $purchase){
+            $items = $purchase->yiiCards;
+            if (in_array($card,$items)){
+                foreach($items as $item){
+                    if ($item->ID !== $card->ID){
+                        if (!isset($rec[$item->ID])) $rec[$item->ID]=0;
+                        $rec[$item->ID]++;
+                    }
+                }
+            }
+        }
+        $rec2 = array();
+        foreach($rec as $cardID=>$cnt){
+            array_push($rec2,array($cnt,$cardID));
+        }
+        arsort($rec2);
+
+        $rec = array();
+        foreach($rec2 as $item){ array_push($rec,$item[1]); }
+
+        $rec = array_slice($rec,0,4);
+        return $rec;
+        //return print_r($rec2,true);
+        /*
+        $criteria=new CDbCriteria;
+        $criteria->with=array('yiiPurchases');
+        $criteria->compare('t.ID',$this->ID);
+        $criteria->compare('t.name',$this->name,true);
+        $criteria->compare('t.description',$this->description,true);
+        $criteria->compare('yiiPurchases.name',$this->producer_search,true);
+        $criteria->compare('t.price',$this->price);
+        $criteria->compare('t.sizeX',$this->sizeX);
+        $criteria->compare('t.sizeY',$this->sizeY);
+        $criteria->compare('t.sizeZ',$this->sizeZ);
+        $criteria->compare('t.weight',$this->weight);
+
+        return (new CActiveDataProvider($this, array('criteria'=>$criteria)))->data;
+        */
+    }
 }

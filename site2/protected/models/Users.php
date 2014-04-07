@@ -16,6 +16,8 @@
  */
 class Users extends CActiveRecord
 {
+    public $verifyCode;
+
 	/**
 	 * @return string the associated database table name
 	 */
@@ -38,6 +40,7 @@ class Users extends CActiveRecord
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, token, FIO, address, mail, phone', 'safe', 'on'=>'search'),
+            array('verifyCode', 'captcha', 'allowEmpty'=>!CCaptcha::checkRequirements()),
 		);
 	}
 
@@ -65,6 +68,7 @@ class Users extends CActiveRecord
             'address' => 'Адрес',
             'mail' => 'Элекстронная почта',
             'phone' => 'Номер телефона',
+            'verifyCode'=>'Капча',
 		);
 	}
 
