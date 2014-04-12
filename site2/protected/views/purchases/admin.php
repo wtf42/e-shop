@@ -76,6 +76,14 @@ $this->breadcrumbs=array(
                                 'submit'=>array('delete','id'=>$purchase->ID),
                                 'confirm'=>'Вы уверены что хотите удалить информацию о покупке #"'.$purchase->ID.'"?'));
                         ?>
+                        <!--
+                        <form method=post action="https://www.sandbox.paypal.com/cgi-bin/webscr">
+                            <input type="hidden" name="cmd" value="_notify-synch">
+                            <input type="hidden" name="tx" value="<?php echo $purchase->payment_transaction; ?>">
+                            <input type="hidden" name="at" value="IZlJ4JAdg8NrXlLtsLMdJud4CSykIJvvzpec4qcVqDpMxyai-Ts7F3fzZ9W">
+                            <input type="submit" value="информация об оплате" class="btn btn-info btn-xs">
+                        </form>
+                        -->
                     </div>
                 </div>
             </div>

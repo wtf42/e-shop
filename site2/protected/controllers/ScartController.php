@@ -63,7 +63,7 @@ class ScartController extends Controller
         //$this->render('index');
     }
 
-    /*
+
     public function actionClear()
     {
         Yii::app()->session['scart'] = array();
@@ -74,7 +74,7 @@ class ScartController extends Controller
     {
         print_r(Yii::app()->session['scart']);
     }
-    */
+
 
 	public function actionView()
 	{

@@ -45,7 +45,7 @@
 		<?php echo $form->labelEx($model,'paymentState',array('class'=>'col-sm-2 control-label')); ?>
 		<div class="col-sm-8">
             <?php
-            $list = array(''=>'просмотрено','begin'=>'перенаправлено на оплату','end'=>'оплачено');
+            $list = $this->payment_states;
             echo $form->dropDownList($model,'paymentState', $list,
                 array('prompt'=>'Выберите состояние...','class'=>'form-control'));
             ?>
@@ -57,10 +57,7 @@
 		<?php echo $form->labelEx($model,'deliveryState',array('class'=>'col-sm-2 control-label')); ?>
 		<div class="col-sm-8">
             <?php
-            $list = array(''=>'ожидание рассмотрения',
-                'begin'=>'просмотрена',
-                'mid'=>'отправлено в службу доставки',
-                'end'=>'доставлено');
+            $list = $this->delivery_states;
             echo $form->dropDownList($model,'deliveryState', $list,
                 array('prompt'=>'Выберите состояние...','class'=>'form-control'));
             ?>

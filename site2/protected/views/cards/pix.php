@@ -36,11 +36,7 @@ $this->layout='//layouts/empty';
                 'multiple' => true,
 
                 'options' => array(
-                    'beforeSend' => 'js:function(event, files, index, xhr, handler, callBack) {
-                        //handler.uploadRow.find(".upload_start button").click(callBack);
-                        alert("before");
-                    }',
-                    '_onDone'=>'js:function(event, files, index, xhr, handler, callBack) {
+                    'beforeReturn'=>'js:function(event, files, index, xhr, handler, callBack) {
                         alert("1");
                     }',
                 ),

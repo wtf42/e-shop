@@ -11,6 +11,8 @@
  * @property string $paymentState
  * @property string $deliveryState
  * @property integer $marker
+ * @property string $payment_token
+ * @property string $payment_transaction
  *
  * The followings are the available model relations:
  * @property Cards[] $yiiCards
@@ -38,6 +40,7 @@ class Purchases extends CActiveRecord
 			array('userID, marker', 'numerical', 'integerOnly'=>true),
 			array('userComment', 'length', 'max'=>500),
 			array('paymentState, deliveryState', 'length', 'max'=>50),
+            array('payment_token, payment_transaction', 'length', 'max'=>100),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('ID, userID, userComment, date, paymentState, deliveryState, marker', 'safe', 'on'=>'search'),
@@ -70,6 +73,8 @@ class Purchases extends CActiveRecord
 			'paymentState' => 'Состояние оплаты',
 			'deliveryState' => 'Состояние доставки',
 			'marker' => 'Этап покупки',
+            'payment_token' => 'Payment Token',
+            'payment_transaction' => 'Payment Transaction',
 		);
 	}
 
@@ -99,6 +104,8 @@ class Purchases extends CActiveRecord
 		$criteria->compare('paymentState',$this->paymentState,true);
 		$criteria->compare('deliveryState',$this->deliveryState,true);
 		$criteria->compare('marker',$this->marker);
+        //$criteria->compare('payment_token',$this->payment_token,true);
+        //$criteria->compare('payment_transaction',$this->payment_transaction,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

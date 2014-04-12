@@ -57,7 +57,7 @@ $this->breadcrumbs=array(
                     <div class="col-sm-8">
                         <div class="">
                             <?php
-                            $pstates=array(''=>'просмотрено','begin'=>'перенаправлено на оплату','end'=>'оплачено');
+                            $pstates=$this->payment_states;
                             $text = array_key_exists($purchase->paymentState,$pstates) ?
                                 $pstates[$purchase->paymentState] :
                                 'ошибка: неизвестное состояние';
@@ -75,12 +75,9 @@ $this->breadcrumbs=array(
                     <div class="col-sm-8">
                         <div class="">
                             <?php
-                            $pstates=array(''=>'ожидание рассмотрения',
-                                'begin'=>'просмотрена',
-                                'mid'=>'отправлено в службу доставки',
-                                'end'=>'доставлено');
-                            $text = array_key_exists($purchase->deliveryState,$pstates) ?
-                                $pstates[$purchase->deliveryState] :
+                            $dstates=$this->delivery_states;
+                            $text = array_key_exists($purchase->deliveryState,$dstates) ?
+                                $dstates[$purchase->deliveryState] :
                                 'ошибка: неизвестное состояние';
                             echo $text;
                             ?>

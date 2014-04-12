@@ -254,6 +254,11 @@ class XUploadAction extends CAction {
 
                 $model->{$this->fileAttribute}->saveAs($path . $model->{$this->fileNameAttribute});
                 chmod($path . $model->{$this->fileNameAttribute}, 0777);
+				
+				//$file___ = $path . $model->{$this->fileNameAttribute};
+				//$thumb=Yii::app()->phpThumb->create($file___);
+				//$thumb->resize(100,100);
+				//$thumb->save($file___);
 
                 $returnValue = $this->beforeReturn();
                 if ($returnValue === true) {

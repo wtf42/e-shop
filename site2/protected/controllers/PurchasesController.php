@@ -32,7 +32,7 @@ class PurchasesController extends Controller
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','update','pay_begin','pay_end'),
+				'actions'=>array('index','update','pay_begin','pay_mid','pay_end','pay_cancel'),
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
@@ -116,24 +116,181 @@ class PurchasesController extends Controller
         print_r($cards);
     }
 
-    public function actionPay_begin($id){
-        echo $id.'ok';
-        $model=$this->loadModel($id);
-        $model->paymentState='begin';
-        $model->save();
+    public function actionPay_cancel(){
+        echo 'canceled';
         echo '<br />';
-        echo "<a href='/purchases/pay_end/$id'>next (end)</a>";
+        echo "<a href='/purchases/index/'>go back</a>";
+        //$model=$this->loadModel($id);
+        //$model->paymentState='begin';
+        //$model->save();
+
+        $this->redirect('index');
+    }
+
+    public function actionPay_begin($id){
+        $model=$this->loadModel($id);
+        $model->paymentState = 'begin';
+        $model->save();
+
+        $this->render('pay',array(
+            'model'=>$model,
+        ));
+    }
+
+    public function actionPay_mid($id){
+        $paypal = new PayPal();
+        $model=$this->loadModel($id);
+        $model->paymentState = 'mid';
+        $model->save();
+
+
+        $paymentAmount = "42.00";
+
+        $currencyCodeType = "USD";
+        $paymentType = "Sale";
+        $returnURL = "http://localhost/purchases/pay_end/".$id;
+        $cancelURL = "http://localhost/purchases/pay_cancel/";
+
+        $items = array();
+        //$items[] = array('name' => 'Item Name', 'amt' => $paymentAmount, 'qty' => 1);
+
+
+        $sum = 0;
+        $criteria=new CDbCriteria;
+        $criteria->compare('purchaseID',$id,true);
+        $db_items = (new CActiveDataProvider('PurchaseItems', array('criteria'=>$criteria)))->data;
+
+        foreach($db_items as $item){
+            $card = Cards::model()->findByPk($item->cardID);
+            $items[] = array('name' => $card->name, 'amt' => $card->price, 'qty' => $item->count);
+
+            $sum += $card->price * $item->count;
+        }
+        $paymentAmount = $sum.'.00';
+
+
+
+        $resArray = $paypal->SetExpressCheckoutDG( $paymentAmount, $currencyCodeType, $paymentType,
+            $returnURL, $cancelURL, $items );
+
+        $ack = strtoupper($resArray["ACK"]);
+        if($ack == "SUCCESS" || $ack == "SUCCESSWITHWARNING")
+        {
+            $token = urldecode($resArray["TOKEN"]);
+            $paypal->RedirectToPayPalDG( $token );
+
+            //$model->payment_token = $token;
+            //$model->save();
+        }
+        else
+        {
+            //Display a user friendly Error on the page using any of the following error information returned by PayPal
+            $ErrorCode = urldecode($resArray["L_ERRORCODE0"]);
+            $ErrorShortMsg = urldecode($resArray["L_SHORTMESSAGE0"]);
+            $ErrorLongMsg = urldecode($resArray["L_LONGMESSAGE0"]);
+            $ErrorSeverityCode = urldecode($resArray["L_SEVERITYCODE0"]);
+
+            echo "SetExpressCheckout API call failed. ";
+            echo "Detailed Error Message: " . $ErrorLongMsg;
+            echo "Short Error Message: " . $ErrorShortMsg;
+            echo "Error Code: " . $ErrorCode;
+            echo "Error Severity Code: " . $ErrorSeverityCode;
+        }
     }
 
     public function actionPay_end($id){
-        echo $id.'ok';
+        $paypal = new PayPal();
         $model=$this->loadModel($id);
-        $model->paymentState='end';
-        $model->marker=1;
-        $model->save();
-        echo '<br />';
-        echo "<a href='/purchases/index'>next (view)</a>";
-        //echo "<a href='/purchases/view/$id'>next (view)</a>";
+
+        $res = $paypal->GetExpressCheckoutDetails( $_REQUEST['token'] );
+        $finalPaymentAmount =  $res["PAYMENTREQUEST_0_AMT"];
+
+        //Format the  parameters that were stored or received from GetExperessCheckout call.
+        $token 				= $_REQUEST['token'];
+        $payerID 			= $_REQUEST['PayerID'];
+        $paymentType 		= 'Sale';
+        $currencyCodeType 	= $res['CURRENCYCODE'];
+        $items = array();
+        $i = 0;
+        // adding item details those set in setExpressCheckout
+        while(isset($res["L_PAYMENTREQUEST_0_NAME$i"]))
+        {
+            $items[] = array('name' => $res["L_PAYMENTREQUEST_0_NAME$i"], 'amt' => $res["L_PAYMENTREQUEST_0_AMT$i"], 'qty' => $res["L_PAYMENTREQUEST_0_QTY$i"]);
+            $i++;
+        }
+
+        $resArray = $paypal->ConfirmPayment ( $token, $paymentType, $currencyCodeType, $payerID, $finalPaymentAmount, $items );
+        $ack = strtoupper($resArray["ACK"]);
+        if( $ack == "SUCCESS" || $ack == "SUCCESSWITHWARNING" )
+        {
+            $transactionId		= $resArray["PAYMENTINFO_0_TRANSACTIONID"];
+            $model->payment_transaction = $transactionId;
+            $model->paymentState = 'end';
+            $model->marker = 1;
+            $model->save();
+
+            $paymentStatus = $resArray["PAYMENTINFO_0_PAYMENTSTATUS"];
+            $pendingReason = $resArray["PAYMENTINFO_0_PENDINGREASON"];
+            $reasonCode	= $resArray["PAYMENTINFO_0_REASONCODE"];
+
+            // Add javascript to close Digital Goods frame. You may want to add more javascript code to
+            // display some info message indicating status of purchase in the parent window
+            ?>
+            <html>
+            <head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
+            <script>
+                alert("Оплата прошла успешно!");
+                // add relevant message above or remove the line if not required
+                window.onload = function(){
+                    if(window.opener){
+                        window.close();
+                    }
+                    else{
+                        if(top.dg.isOpen() == true){
+                            top.dg.closeFlow();
+                            return true;
+                        }
+                    }
+                };
+
+            </script>
+            </html>
+        <?php
+        }
+        else
+        {
+            //Display a user friendly Error on the page using any of the following error information returned by PayPal
+            $ErrorCode = urldecode($resArray["L_ERRORCODE0"]);
+            $ErrorShortMsg = urldecode($resArray["L_SHORTMESSAGE0"]);
+            $ErrorLongMsg = urldecode($resArray["L_LONGMESSAGE0"]);
+            $ErrorSeverityCode = urldecode($resArray["L_SEVERITYCODE0"]);
+
+            echo "DoExpressCheckoutDetails API call failed. ";
+            echo "Detailed Error Message: " . $ErrorLongMsg;
+            echo "Short Error Message: " . $ErrorShortMsg;
+            echo "Error Code: " . $ErrorCode;
+            echo "Error Severity Code: " . $ErrorSeverityCode;
+            ?>
+            <html>
+            <script>
+                alert("Payment failed");
+                // add relevant message above or remove the line if not required
+                window.onload = function(){
+                    if(window.opener){
+                        window.close();
+                    }
+                    else{
+                        if(top.dg.isOpen() == true){
+                            top.dg.closeFlow();
+                            return true;
+                        }
+                    }
+                };
+
+            </script>
+            </html>
+        <?php
+        }
     }
 
 
@@ -273,4 +430,13 @@ class PurchasesController extends Controller
 			Yii::app()->end();
 		}
 	}
+
+    public $payment_states=array(''=>'создано',
+        'begin'=>'просмотрено',
+        'mid'=>'перенаправлено на оплату',
+        'end'=>'оплачено');
+    public $delivery_states=array(''=>'ожидание рассмотрения',
+        'begin'=>'просмотрена',
+        'mid'=>'отправлено в службу доставки',
+        'end'=>'доставлено');
 }
