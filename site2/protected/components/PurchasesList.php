@@ -14,7 +14,7 @@ class PurchasesList extends CWidget {
                 <div class="col-xs-1">
                     <?php
                     $pix = Yii::app()->params['default_pix'];
-                    if (count($card->yiiPixes)) $pix = Yii::app()->params['images_public_dir'] . $card->yiiPixes[0]->path;
+                    if (strlen($card->pix)) $pix = Yii::app()->params['images_public_dir'] . $card->pix;
 
                     $img = CHtml::image($pix, $card->name, array('width'=>'32px','height'=>'32px'));
                     echo $img;

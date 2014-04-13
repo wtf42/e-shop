@@ -34,15 +34,19 @@ $this->breadcrumbs=array(
             if ($card == null) continue;
 
             $pix = Yii::app()->params['default_pix'];
-            if (count($card->yiiPixes)) $pix = Yii::app()->params['images_public_dir'] . $card->yiiPixes[0]->path;
+            if (strlen($card->pix)) $pix = Yii::app()->params['images_public_dir'] . $card->pix;
             ?>
             <div class="row">
                 <div class="col-xs-2">
+                    <div class="thumbnail">
                     <?php echo CHtml::link(
                         CHtml::image($pix, $card->name,
-                            array("width"=>"150px" ,"height"=>"100px")),
+                            array(
+                                //"width"=>"150px","height"=>"100px"
+                            )),
                         array('/cards/view','id'=>$card->ID),
                         array('class'=>'img-responsive')); ?>
+                    </div>
                 </div>
                 <div class="col-xs-4">
                     <h4 class="product-name"><strong><?php echo $card->name; ?></strong></h4>
