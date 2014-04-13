@@ -53,17 +53,31 @@
 		</div>
 	</div>
 
-	<div class="form-group">
-		<?php echo $form->labelEx($model,'deliveryState',array('class'=>'col-sm-2 control-label')); ?>
-		<div class="col-sm-8">
+    <div class="form-group">
+        <?php echo $form->labelEx($model,'deliveryState',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-8">
             <?php
             $list = $this->delivery_states;
             echo $form->dropDownList($model,'deliveryState', $list,
                 array('prompt'=>'Выберите состояние...','class'=>'form-control'));
             ?>
-			<?php echo $form->error($model,'deliveryState'); ?>
-		</div>
-	</div>
+            <?php echo $form->error($model,'deliveryState'); ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model,'payment_token',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-8">
+            <div class="form-control"><?php echo $model->payment_token; ?></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <?php echo $form->labelEx($model,'payment_transaction',array('class'=>'col-sm-2 control-label')); ?>
+        <div class="col-sm-8">
+            <div class="form-control"><?php echo $model->payment_transaction; ?></div>
+        </div>
+    </div>
 <!--
 	<div class="form-group">
 		<?php echo $form->labelEx($model,'marker',array('class'=>'col-sm-2 control-label')); ?>

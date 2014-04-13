@@ -20,10 +20,6 @@ return array(
 		'application.components.*',
 	),
 
-    'aliases' => array(
-        'xupload' => 'ext.xupload',
-    ),
-
     'defaultController'=>'eshop',
 
 	'modules'=>array(
@@ -35,12 +31,6 @@ return array(
 			// If removed, Gii defaults to localhost only. Edit carefully to taste.
 			'ipFilters'=>array('127.0.0.1','::1'),
 		),
-
-        'phpThumb'=>array(
-            'class'=>'ext.EPhpThumb.EPhpThumb',
-            'options'=>array(),
-        ),
-
 	),
 
 	// application components
@@ -93,16 +83,6 @@ return array(
 				*/
 			),
 		),
-
-
-        /*
-        'clientScript'=>array(
-            'scriptMap'=>array(
-                'jquery.js'=>false,
-            ),
-            'enableJavaScript'=>false,    // Эта опция отключает любую генерацию javascript'а фреймворком
-        ),
-        */
 	),
 
 	// application-level parameters that can be accessed
@@ -112,7 +92,6 @@ return array(
 		'adminEmail'=>'webmaster@example.com',
         'phone'=>'+78001234678',
         'default_pix'=>'/_/img/no_image.png',
-        //'default_pix'=>'/_/img/300x200.svg',
         'images_dir'=>"uploads/",
         'images_public_dir'=>"/uploads/",
         //'images_dir'=>dirname(__FILE__)."/../../uploads/",

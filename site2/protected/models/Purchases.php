@@ -73,8 +73,8 @@ class Purchases extends CActiveRecord
 			'paymentState' => 'Состояние оплаты',
 			'deliveryState' => 'Состояние доставки',
 			'marker' => 'Этап покупки',
-            'payment_token' => 'Payment Token',
-            'payment_transaction' => 'Payment Transaction',
+            'payment_token' => 'Токен покупки',
+            'payment_transaction' => 'Транзакция покупки',
 		);
 	}
 

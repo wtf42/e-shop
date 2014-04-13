@@ -35,7 +35,9 @@ class CardsController extends Controller
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
 				'actions'=>array('create','update','admin','delete',
                     'tag_add','tag_delete',
-                    'pix','pix_add','pix_del','pix_up','pix_get','pix_list','pix_resize'),
+                    //'pix','pix_add','pix_del','pix_up','pix_get','pix_list','pix_resize',
+                    'upload','pix_del'
+                ),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -104,7 +106,7 @@ class CardsController extends Controller
 			'model'=>$model,
 		));
 	}
-
+/*
     public function actionPix($id)
     {
         $model=$this->loadModel($id);
@@ -183,6 +185,69 @@ class CardsController extends Controller
     public function actionPix_up(){
         $this->actionPix_del();
         $this->actionPix_add();
+    }
+*/
+    public function actionUpload(){
+        //echo 'ok';
+        //print_r($_FILES);
+        //print_r($_GET);
+        //print_r($_POST);
+        //return;
+
+        Yii::import('application.extensions.upload.Upload');
+        $Upload = new Upload( (isset($_FILES['pix_pix']) ? $_FILES['pix_pix'] : null) );
+        $Upload->jpeg_quality  = 100;
+        $Upload->no_script     = false;
+        $Upload->image_resize  = true;
+        $Upload->image_x       = 300;
+        $Upload->image_y       = 400;
+        $Upload->image_ratio   = true;
+
+        $newName  = $Upload->file_src_name . date('YmdHis');
+        $destPath = Yii::app()->params['images_dir'];
+        $destName = '';
+
+        if ($Upload->uploaded) {
+            $Upload->file_new_name_body = $newName;
+            $Upload->process($destPath);
+
+            // if was processed
+            if ($Upload->processed) {
+                $destName = $Upload->file_dst_name;
+
+                echo $destName;
+
+                // create the thumb
+                unset($Upload);
+
+                $Upload = new Upload($destPath.$destName);
+                $Upload->file_new_name_body   = 'thumb_' . $newName;
+                $Upload->no_script            = false;
+                $Upload->image_resize         = true;
+                $Upload->image_x              = 120;
+                $Upload->image_y              = 120;
+                $Upload->image_ratio          = true;
+                $Upload->process($destPath . '/thumbs');
+            } else
+                throw new CHttpException(404,$Upload->error);
+        }else
+            throw new CHttpException(404,'select file to upload.');
+    }
+    public function actionPix_del(){
+        //if(!isset($_POST['pix'])) return;
+        //$pix = $_POST['pix'];
+        //$destPath = Yii::app()->params['images_dir'];
+        //$full_path = $destPath . '/' . $pix;
+        //if (file_exists($full_path))
+        //    unlink($full_path);
+        //echo 'ok';
+        if(!isset($_POST['id'])) return;
+        $model = $this->loadModel($_POST['id']);
+        if (!isset($model->pix) || strlen($model->pix) == 0) return;
+        $full_path = Yii::app()->params['images_dir'] . '/' . $model->pix;
+        if (file_exists($full_path))
+            unlink($full_path);
+        echo 'ok';
     }
 
 	/**

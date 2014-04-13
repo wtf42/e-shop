@@ -23,7 +23,7 @@ $this->admin_menu=array(
                     <div class="thumbnail">
                         <?php
                         $pix = Yii::app()->params['default_pix'];
-                        if (count($model->yiiPixes)) $pix = Yii::app()->params['images_public_dir'] . $model->yiiPixes[0]->path;
+                        if (strlen($model->pix)) $pix = Yii::app()->params['images_public_dir'] . $model->pix;
 
                         $img = CHtml::image($pix, $model->name);
                         echo $img;

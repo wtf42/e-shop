@@ -46,7 +46,7 @@
     </div>
     <div class="col-xs-1">
         <?php echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span>...',
-            array('/producers/admin'), array('class'=>'btn btn-sm btn-default colorbox_iframe')); ?>
+            array('/producers/admin'), array('class'=>'btn btn-sm btn-default colorbox_producers')); ?>
     </div>
 </div>
 
@@ -120,28 +120,23 @@
         </div>
     </div>
 </div>
-<hr />
-<div class="form-horizontal">
-    <div class="form-group">
-        <label class="col-sm-2 control-label">Картинка</label>
-        <div class="col-sm-10">
-            <div class="row">
-                <div class="col-sm-5">
-                    <select class="form-control" id="pix_selector" cid="<?php echo $model->ID; ?>">
-                        <option value="">Выберите картинку...</option>
-                    </select>
-                </div>
-                <div class="col-sm-5">
-                    <?php echo CHtml::link('<span class="glyphicon glyphicon-refresh"></span>',
-                        "#", array('class'=>'btn btn-sm btn-default','id'=>'pix_update')); ?>
-                    <?php echo CHtml::link('<span class="glyphicon glyphicon-pencil"></span> Загрузить картинки',
-                        array('/cards/pix','id'=>$model->ID), array('class'=>'btn btn-sm btn-default colorbox')); ?>
-                </div>
-            </div>
-        </div>
+<div class="form-group">
+    <?php echo $form->label($model,'pix',array('class'=>'col-sm-2 control-label')); ?>
+    <div class="col-xs-4 col-sm-3">
+        <?php echo $form->textField($model,'pix',array('class'=>'form-control')); ?>
+    </div>
+    <div class="col-xs-2">
+        <?php
+        echo CHtml::link('<span class="glyphicon glyphicon-picture"></span> изменить',
+            '#', array('class'=>'btn btn-sm btn-default colorbox_pix'));
+        echo ' ';
+        echo CHtml::link('<span class="glyphicon glyphicon-trash"></span>',
+            '#', array('class'=>'btn btn-sm btn-danger pix_del')); ?>
     </div>
 </div>
+
 <?php } ?>
+
 <hr />
 <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
@@ -151,6 +146,35 @@
 </div>
 
 <?php $this->endWidget(); ?>
+
+<div class="hidden">
+    <div id="pix_div">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="thumbnail">
+                    <?php
+                    $pix_path = Yii::app()->params['default_pix'];
+                    if (strlen($model->pix)) $pix_path = Yii::app()->params['images_public_dir'] . $model->pix;
+                    ?>
+                    <img src="<?php echo $pix_path; ?>" id="pix_img"/>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <form id="pix-form" enctype="multipart/form-data" action="#" method="post">
+                    <input name="pix_pix" id="pix_file" class="form-group" type="file">
+                    <?php
+                    echo CHtml::htmlButton('Загрузить картинку',array(
+                        'onclick'=>'javascript: sendFile();',
+                        'class'=>'btn btn-info form-group',
+                    ));
+                    ?>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <script>
     var del_clicker=function(){
         var cid = $(this).attr('cid');
@@ -213,61 +237,67 @@
         });
     };
 
-    var pix_select = function(){
-        var cid = $("#pix_selector").attr('cid');
+    $('.colorbox_producers').colorbox({onClosed: producers_update,'iframe':true,'height':'90%','width':'90%'});
+    $('.colorbox_pix').colorbox({'height':'250px','width':'600px', inline:true, href:"#pix_div"});
+
+
+    var up_pix = function(pix){
+        $("#Cards_pix").val(pix);
+
+        var pix_path = '<?php echo Yii::app()->params['default_pix']; ?>';
+        if (pix.length != 0) pix_path = '<?php echo Yii::app()->params['images_public_dir'] ?>' + pix;
+        $("#pix_img").attr('src',pix_path);
+    }
+
+    function sendFile(){
+        var formData = new FormData($("#pix-form")[0]);
         $.ajax({
-            type: "POST",
-            url: "<?php echo Yii::app()->createUrl('/cards/pix_get'); ?>",
-            data: { id: cid },
-            success: function (data, textStatus) {
-                $("#pix_selector").val(data);
-                //$.jGrowl(data);
+            url: '<?php echo Yii::app()->createUrl("/cards/upload"); ?>',
+            type: 'POST',
+            data: formData,
+            //datatype:'json',
+            beforeSend: function() {
+                // do some loading options
             },
-            error: function (data, textStatus) {
-                $.jGrowl("ошибка1: "+textStatus);
-            }
-        });
-        //return false;
-    };
-    var pix_update = function(){
-        var cid = $("#pix_selector").attr('cid');
-        $.ajax({
-            type: "POST",
-            url: "<?php echo Yii::app()->createUrl('/cards/pix_list'); ?>",
-            data: { id: cid },
-            success: function (data, textStatus) {
-                $("#pix_selector").html('<option value="">Выберите картинку...</option>' + data);
-                pix_select();
-                //$.jGrowl(data);
+            success: function (data) {
+                // on success do some validation or refresh the content div to display the uploaded images
+
+                //alert('ok' + data);
+                //return;
+
+                var pix = data;
+                up_pix(pix);
             },
+
+            complete: function() {
+                // success alerts
+
+                //alert('complete');
+            },
+
             error: function (data, textStatus) {
-                $.jGrowl("ошибка2: "+textStatus);
-            }
+                alert("There may a error on uploading: " + textStatus);
+            },
+            cache: false,
+            contentType: false,
+            processData: false
         });
         return false;
     };
 
-    $('.colorbox_iframe').colorbox({onClosed: producers_update,'iframe':true,'height':'90%','width':'90%'});
-    $('.colorbox').colorbox({onClosed: pix_update,'iframe':false,'height':'90%','width':'90%'});
-
-    $("#cboxClose").click(pix_update);
-    $("#pix_update").click(pix_update);
-
-    $("#pix_selector").change(function(){
-        var cid = $("#pix_selector").attr('cid');
-        var pix = $("#pix_selector").val();
+    $(".pix_del").click(function(){
         $.ajax({
             type: "POST",
-            url: "<?php echo Yii::app()->createUrl('/cards/pix_up'); ?>",
-            data: { id: cid, pix: pix },
+            url: "<?php echo Yii::app()->createUrl('/cards/pix_del'); ?>",
+            data: { id : <?php echo $model->ID; ?> },
             success: function (data, textStatus) {
-                $.jGrowl(data);
+                $.jGrowl('картинка удалена!');
             },
             error: function (data, textStatus) {
-                $.jGrowl("ошибка3: "+textStatus);
+                $.jGrowl("ошибка: "+textStatus);
             }
         });
+        up_pix('');
+        return false;
     });
-
-    pix_update();
 </script>

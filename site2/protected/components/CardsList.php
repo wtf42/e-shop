@@ -6,7 +6,7 @@ class CardsList extends CWidget {
 	public function run() {
 		foreach($this->Cards as $card){
             $pix = Yii::app()->params['default_pix'];
-            if (count($card->yiiPixes)) $pix = Yii::app()->params['images_public_dir'] . $card->yiiPixes[0]->path;
+            if (strlen($card->pix)) $pix = Yii::app()->params['images_public_dir'] . $card->pix;
 			?>
                 <div class="card_item col-sm-6 col-md-3">
                     <div class="thumbnail">

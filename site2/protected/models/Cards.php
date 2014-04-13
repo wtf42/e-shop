@@ -13,6 +13,7 @@
  * @property integer $sizeY
  * @property integer $sizeZ
  * @property integer $weight
+ * @property string $pix
  *
  * The followings are the available model relations:
  * @property Pix[] $yiiPixes
@@ -42,6 +43,7 @@ class Cards extends CActiveRecord
 			array('producerID, price, sizeX, sizeY, sizeZ, weight', 'numerical', 'integerOnly'=>true),
 			array('name', 'length', 'max'=>200),
 			array('description', 'length', 'max'=>2000),
+            array('pix', 'length', 'max'=>500),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
 			array('name, description, producer_search, price, sizeX, sizeY, sizeZ, weight', 'safe', 'on'=>'search'),
@@ -56,7 +58,7 @@ class Cards extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'yiiPixes' => array(self::MANY_MANY, 'Pix', 'yii_card_pix(cardID, pixID)'),
+			//'yiiPixes' => array(self::MANY_MANY, 'Pix', 'yii_card_pix(cardID, pixID)'),
 			'yiiTags' => array(self::MANY_MANY, 'Tags', 'yii_card_tags(cardID, tagID)'),
 			'producer' => array(self::BELONGS_TO, 'Producers', 'producerID'),
 			'yiiPurchases' => array(self::MANY_MANY, 'Purchases', 'yii_purchase_items(cardID, purchaseID)'),
@@ -78,6 +80,7 @@ class Cards extends CActiveRecord
 			'sizeY' => 'Размер Y',
 			'sizeZ' => 'Размер Z',
 			'weight' => 'Вес',
+            'pix' => 'Картинка',
 		);
 	}
 

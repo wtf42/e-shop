@@ -52,7 +52,7 @@ foreach($dataProvider->data as $card){
     if ($first) $first=false; else echo "<hr />\n";
 
     $pix = Yii::app()->params['default_pix'];
-    if (count($card->yiiPixes)) $pix = Yii::app()->params['images_public_dir'] . $card->yiiPixes[0]->path;
+    if (strlen($card->pix)) $pix = Yii::app()->params['images_public_dir'] . $card->pix;
     ?>
     <div class="row">
         <div class="col-xs-3">
